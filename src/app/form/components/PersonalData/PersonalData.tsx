@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form'
+
 import { Input, InputMaskComponent } from '@/components'
 import { Title } from '@/components/Title'
 
@@ -7,6 +9,8 @@ import { Description } from './styles'
 
 
 const PersonalData: React.FC<{  }> = () => {
+
+    
 
     return (
         <>
@@ -19,15 +23,29 @@ const PersonalData: React.FC<{  }> = () => {
                 <Title text={"Dados Pessoais"} />
             </div>
 
-            <Input label={"Nome completo"} field='name' type='text' />
-            <Input label={"Email"} field='email' type='text' helperText={"Você receberá um link de validação no e-mail cadastrado para confirmar o agendamento"} />
-            <InputMaskComponent label={"Telefone"} field='phone' mask={'() 99999-9999'} />
+            <Input 
+                label={"Nome completo"} 
+                field='name' 
+                type='text' 
+                registerOptions={{ 
+                        required: "nome com 2 caracteres é obrigatório", 
+                        minLength: { value: 2, message: "nome com 2 caracteres é obrigatório"} 
+                    }} 
+                />
+            <Input 
+                label={"Email"} 
+                field='email' 
+                type='text' 
+                helperText={"Você receberá um link de validação no e-mail cadastrado para confirmar o agendamento"} 
+                registerOptions={{ required: true, pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "email inválido" } }} 
+            />
+            <InputMaskComponent label={"Telefone"} field='phone' mask={'(99) 99999-9999'} registerOptions={{ required: true, pattern: { value: /^[0-9]{11}$/, message: "número de telefone inválido" } }} />
             
             <div style={{ width: '100%', borderRadius: '12px', borderColor: '#2868ad', borderStyle: 'solid', borderWidth: 2, height: 177, padding: 16 }}>
                 <div style={{ color: '#2868ad', marginBottom: 16, fontSize: 14 }}>
                     * Utilize este campo para fazer o upload do seu currículo. Este item é obrigatório. Só aceitamos arquivos em formato '.pdf'.
                 </div>
-                <Input label={""} field='resume' type='file' />
+                <Input label={""} field='resume' type='file' registerOptions={undefined} />
             </div>
         </>
     )

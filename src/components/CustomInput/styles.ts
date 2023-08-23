@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components'
 
 
 export const StyledContainer = styled.div`
-    //flex: 1;
     width: 354px;
     margin-bottom: 24px;
 
@@ -65,9 +64,9 @@ export const StyledInput = styled.input<{ $display?: string }>`
     }}
 `
 
-export const HelperText = styled.span`
+export const HelperText = styled.span<{ $hasError?: boolean }>`
     height: 15px;
-    color: #c0c0c0;
+    color: ${({ $hasError }) => $hasError ? 'red' : '#c0c0c0'};
     font-size: 12px;
     width: 100%; max-width: 100%;
     

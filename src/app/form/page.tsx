@@ -1,5 +1,7 @@
 "use client"
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+
+import { useForm, FormProvider } from 'react-hook-form'
 
 import { Button, Header } from '../../components'
 import { Slot } from './components/Calendar/Calendar'
@@ -8,24 +10,56 @@ import { StyledContainer, Footer, SideMenu, InterviewInformation } from './style
 import { CalendarComponent, PersonalData } from './components'
 import { Description } from './components/PersonalData/styles'
 
-
 import { BsFillStopwatchFill } from 'react-icons/bs'
 import { ConfirmationModal } from './components/ConfirmationModal/ConfirmationModal'
 
 
 
 const Form = () => {
+    const methods = useForm({ mode: 'onBlur',  })
 
     const [step, setStep] = useState<number>(0)
+    console.log("step: ", step)
 
     const steps: any = {
-        0: <PersonalData />,
-        1: <CalendarComponent />,
-        //'confirmation': <Data />
+        0: {
+            'component': <PersonalData />,
+            //'fieldsToValidate': ["name", "email", "phone"]
+            'fieldsToValidate': ["name", "email"]
+        },
+        1: {
+            'component': <CalendarComponent />},
+            'fieldsToValidate': ["date", "slot"]
+        }
+    
+    const getFieldsToValidate = () => {
+        return steps[step]['fieldsToValidate']
+    }
+
+    const handleOnProgress = (num: number) => {
+        if (num < 0) {
+            setStep(step + (num))       
+            return 
+        }
+        
+        const { formState: { errors } } = methods
+        console.log("errors: ", errors)
+
+        const fields_to_validate = getFieldsToValidate() as string[]
+
+        for (let i = 0; i < fields_to_validate.length; i++) {
+            if (Object.keys(errors).includes(fields_to_validate[i])) {
+                // disparar erro
+                
+                return
+            }
+        }
+        
+        setStep(step + (num))       
     }
 
 
-    console.log("step: ", step)
+    const onSubmit = (data: any) => console.log(data);
 
     const displayBackBtn = step === 0 && "hidden" 
 
@@ -75,22 +109,25 @@ const Form = () => {
                 </InterviewInformation>
 
             </SideMenu >
-            <div style={{ flex: 1, padding: '20px' }}>
-                <Header />
-                {steps[step]}
-            </div>
+            <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <div style={{ flex: 1, padding: '20px' }}>
+                    <Header />
+                    {steps[step]['component']}
+                </div>
+            </form>
+
+            { <ConfirmationModal /> }
+            </FormProvider>
 
         </StyledContainer>
         <Footer>
             {/* @ts-ignore */}
             <div style={{ visibility: displayBackBtn }}>
-                <Button onClick={() => setStep(step -1)} text={'Voltar'} hollow={true} />
+                <Button onClick={() => handleOnProgress(-1)} text={'Voltar'} hollow={true} />
             </div>
-            <Button onClick={() => setStep(step +1)} text={'Avançar'} />
+            <Button onClick={() => handleOnProgress(1)} text={'Avançar'} />
         </Footer>
-        {
-            <ConfirmationModal />
-        }
         </>
     )
 }

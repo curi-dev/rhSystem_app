@@ -1,7 +1,9 @@
 "use client"
 
-import InputMask from 'react-input-mask'
 import { InputHTMLAttributes, useState } from 'react'
+import InputMask from 'react-input-mask'
+
+import { useFormContext } from 'react-hook-form'
 
 import { StyledContainer, StyledInput, StyledInputWrapper, HelperText } from './styles'
 
@@ -10,17 +12,44 @@ import { AiOutlineUpload } from 'react-icons/ai'
 
 interface InputWrapperProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string
-    field?: string
+    field: string
     helperText?: string
+    needsUpdateOnBlur?: (value: string) => void
+    registerOptions: any
 }
 
-const Input: React.FC<InputWrapperProps> = ({ field, label, helperText, ...props }) => {
+const Input: React.FC<InputWrapperProps> = ({ 
+    field, 
+    label, 
+    helperText, 
+    needsUpdateOnBlur = null, 
+    registerOptions = { required: true }, ...props }) => {
+
+   
+    const { register, watch, formState: { errors }, trigger } = useFormContext()
+    const self = watch(field)
+    console.log("self: ", self)
+    console.log("errors: ", errors)
 
     const [isFocus, setIsFocus] = useState(false)
 
     const { type } = props
 
     const isFileInput = (type === 'file')
+
+    const getHelperText = () => {
+        if (Object.keys(errors).includes(field)) {
+            return <HelperText $hasError>
+                    {/* @ts-ignore */}
+                    {errors.field?.message || "verifique novamente o campo"}
+                </HelperText>
+             
+        }
+        return <HelperText>
+                {helperText}
+            </HelperText>
+    }
+
 
     return  (
         <StyledContainer>
@@ -38,8 +67,15 @@ const Input: React.FC<InputWrapperProps> = ({ field, label, helperText, ...props
                         </div>
                     )
                 }          
-                <StyledInput 
-                    onBlur={() => setIsFocus(false)} 
+                <StyledInput
+                    { ...register(field, registerOptions) } 
+                    
+                    //value={self}
+                    onBlur={() => {
+                        trigger(field)
+
+                        setIsFocus(false)
+                    }} 
                     onFocus={() => {
                         console.log("onFocus")
                         return setIsFocus(true)
@@ -51,9 +87,9 @@ const Input: React.FC<InputWrapperProps> = ({ field, label, helperText, ...props
                     {...props}
                 />
             </StyledInputWrapper>
-            <HelperText>
-                {helperText}
-            </HelperText>
+            
+            {getHelperText()}
+            
         </StyledContainer>
     )
 }
@@ -63,14 +99,27 @@ interface InputMaskComponentProps extends InputWrapperProps {
 }
 
 // Will work fine
-const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, mask }) => (
+const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, mask }) => {
 
-    
-    <InputMask mask={mask} value={""} onChange={() => console.log("on change")}>
+    const [maskValue, setValueMask] = useState("")
+
+    console.log("maskValue: ", maskValue)
+
+    return (
+ 
+    <InputMask 
+        mask={mask} 
+        value={maskValue}
+        onChange={(e) => {
+            console.log(e.target.value)
+            setValueMask(e.target.value)
+        }} 
+
+    >
         {/* @ts-ignore */}
-      {(inputProps) => <Input {...inputProps} label={label} field={field} />}
+      {(inputProps) => <Input {...inputProps} label={label} field={field} needsUpdateOnBlur={maskValue} />}
     </InputMask>
-)
+)}
 
 
 
