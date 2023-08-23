@@ -101,14 +101,33 @@ a {
 }
 
 .layout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100vw;
   height: 100vh;
+  
+  display: flex;
   background-color: #fff;
+}
 
-  border: 1px solid red;
+.custom-calendar {
+  flex: 1 !important;
+  /* height: 450px !important; */
+  margin-right: 12px !important;
+  box-shadow: none !important;
+
+}
+
+input[type="file"] {
+  /* Ocultar o botão padrão */
+  /* display: none; */
+}
+
+/* Estilizar o botão de seleção de arquivo */
+input[type="file"]::file-selector-button {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+  visibility: hidden;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 
-
 export const StyledContainer = styled.div`
-    flex: 1
+    margin: 16px;
+    color: #2868ad;
 
+    & span {
+
+    }
 `
