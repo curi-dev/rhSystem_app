@@ -12,6 +12,20 @@ import { BsFillCalendarCheckFill } from 'react-icons/bs'
 
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 
+export const months = {
+    1: "Janeiro",
+    2: "Fevereiro",
+    3: "Março",
+    4: "Abril",
+    5: "Maio",
+    6: "Junho",
+    7: "Julho",
+    8: "Agosto",
+    9: "Setembro",
+    10: "Outubro",
+    11: "Novembro",
+    12: "Dezembro",
+}
 
 export const slots_mock = [
     { id: "", value: SlotTimeValue.SLOT_1, label: "6:00 AM - 7:00 AM" },
@@ -30,12 +44,12 @@ export const slots_mock = [
 interface CalendarProps {
     values: any
     actions: any
+    isModalOpen: boolean
 }
 
 // elevation of state
-const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
+const CalendarComponent: React.FC<CalendarProps> = ({ actions, values, isModalOpen }) => {
     
-    console.log("values: ", values)
     
     return (
         <>
@@ -49,16 +63,16 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }} >
-                <Calendar
-                    // @ts-ignore
-                    value={values.selectedDay}
-                    // @ts-ignore
-                    onChange={actions.onChangeSelectedDay}
-                    shouldHighlightWeekends
+                    <Calendar
+                        // @ts-ignore
+                        value={values.selectedDay}
+                        // @ts-ignore
+                        onChange={actions.onChangeSelectedDay}
+                        shouldHighlightWeekends
 
-                    calendarClassName='custom-calendar'
-                />
-
+                        // renderFooter={true}
+                        calendarClassName='custom-calendar'
+                    />
                 <TimeSlotContainer >
                     {slots_mock && slots_mock.length > 0 && slots_mock?.map((s, i) => (
                         <Slot 

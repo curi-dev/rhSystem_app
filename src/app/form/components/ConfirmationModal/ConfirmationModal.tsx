@@ -6,7 +6,6 @@ import { Description, ReadOnlyContainer, StyledInputGroup  } from './styles'
 
 import { AiFillExclamationCircle } from 'react-icons/ai'
 import { Button } from '@/components';
-import { DayValue } from 'react-modern-calendar-datepicker';
 import { SlotTimeValue } from '../Calendar/interfaces';
 
 const customStyles = {
@@ -19,9 +18,11 @@ const customStyles = {
       transform: 'translate(-50%, -50%)',
       width: '100%',
       height: '50%',
-      maxWidth: '800px',
-      maxHeight: '374px'
+      maxWidth: '700px',
+      maxHeight: '374px',
+      boxShadow: '0 1em 3em rgba(156, 136, 255,0.2)'
     },
+    overlay: { zIndex: 1000 }
 };
 
 interface ConfirmationModalProps {
@@ -49,10 +50,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
             isOpen={isOpen}
             onRequestClose={closeModal}
             style={customStyles}
+            ariaHideApp={false}
         >
 
             <div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', border: '0.5px solid #e0e0e0', padding: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', border: '0.5px solid #e0e0e0', padding: 12 }}>
                     <div style={{ marginRight: 4, height: '100%', display: 'flex', alignItems: 'center' }}>
                         <AiFillExclamationCircle color="#c0131d" size={25} />
                     </div>

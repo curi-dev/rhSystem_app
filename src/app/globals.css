@@ -105,7 +105,7 @@ a {
   height: 100vh;
   
   display: flex;
-  background-color: #fff;
+  background-color: #f8f9fc;
 }
 
 .custom-calendar {
@@ -113,7 +113,6 @@ a {
   /* height: 450px !important; */
   margin-right: 12px !important;
   box-shadow: none !important;
-
 }
 
 input[type="file"] {

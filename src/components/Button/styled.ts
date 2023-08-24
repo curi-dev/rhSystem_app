@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 
-export const StyledButton = styled.button<{ fill?: boolean, hollow?: boolean }>`
+export const StyledButton = styled.button<{ $hollow?: boolean }>`
     width: 128px;
     height: 55px;
     background-color: #000000;
@@ -15,8 +15,8 @@ export const StyledButton = styled.button<{ fill?: boolean, hollow?: boolean }>`
     font-weight: 900;
     //font-family: 'Poppins', 'sans-serif';
 
-    ${(props) => {
-        if (props.hollow) {
+    ${({ $hollow }) => {
+        if ($hollow) {
             return css`
                 background-color: #fff;
                 outline: none;

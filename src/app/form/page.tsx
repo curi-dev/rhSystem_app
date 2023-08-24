@@ -1,10 +1,11 @@
 "use client"
+
 import { useState } from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
 
 import { Button, Header } from '../../components'
-import { Slot, slots_mock } from './components/Calendar/Calendar'
+import { Slot, months, slots_mock } from './components/Calendar/Calendar'
 
 import { StyledContainer, Footer, SideMenu, InterviewInformation } from './styles'
 import { CalendarComponent, PersonalData } from './components'
@@ -23,6 +24,7 @@ const Form = () => {
     
 
     const [step, setStep] = useState<number>(0)
+    
     const [isModalOpen, setIsModalOpen] = useState(false)
     
     const [selectedDay, setSelectedDay] = useState<DayValue | null>(null);
@@ -32,10 +34,10 @@ const Form = () => {
     const steps: any = {
         0: {
             'component': <PersonalData />,
-            'next': () => {
+            next: () => {
                 setStep(step +1)
             },
-            'validate': () => {
+            validate: () => {
                 //let fields_to_validate = ["name", "email", "phone"]
                 let fields_to_validate = ["name", "email"]
                 for (let i = 0; i < fields_to_validate.length; i++) {
@@ -49,13 +51,15 @@ const Form = () => {
 
         },
         1: {
-            'component': <CalendarComponent 
+            component: <CalendarComponent 
+                            isModalOpen={isModalOpen}
                             values={{ selectedDay, slot }} 
-                            actions={{ onChangeSelectedDay: (v: any) => setSelectedDay(v), onChangeSlot: (v: SlotTimeValue) => setSlot(v) }} />},
-            'next': () => {
+                            actions={{ onChangeSelectedDay: (v: any) => setSelectedDay(v), onChangeSlot: (v: SlotTimeValue) => setSlot(v) }} 
+                        />,
+            next: () => {
                 setIsModalOpen(true)
             },
-            'validate': () => {
+            validate: () => {
                 if (selectedDay && slot) {
                     return true
                 }
@@ -63,6 +67,7 @@ const Form = () => {
                 return false
             }
         }
+    }
     
     
     const handleOnProgress = (num: number) => {
@@ -125,7 +130,7 @@ const Form = () => {
                         {/* first-child */}
                         <div>
                             <span>
-                                Data
+                                DATA
                             </span>
                         </div>
 
@@ -133,9 +138,10 @@ const Form = () => {
                             <span>
                                 {
                                     selectedDay ? (
-                                        getDate()
+                                        // @ts-ignore
+                                        `${selectedDay.day}.${months[selectedDay.month]}.${selectedDay.year}`
                                     ) : (
-                                        "Não definido"
+                                        "Por favor selecione"
                                     )
                                 }
                             </span>
@@ -147,7 +153,7 @@ const Form = () => {
                         {/* first-child */}
                         <div>
                             <span>
-                                Horário
+                                HORÁRIO
                             </span>
                         </div>
                         <div>
@@ -159,7 +165,7 @@ const Form = () => {
                                         return time['label']
                                     }
 
-                                    return "Não definido"
+                                    return "Por favor selecione"
                                 })()
                             }
                             </span>

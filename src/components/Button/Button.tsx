@@ -13,7 +13,7 @@ const Button: React.FC<ButtonProps> = ({ text, fill = true, hollow = false, ...p
 
 
     return (
-        <StyledButton {...props} fill={fill} hollow={hollow} >
+        <StyledButton {...props} $hollow={hollow} >
             {text}
         </StyledButton>
     )
