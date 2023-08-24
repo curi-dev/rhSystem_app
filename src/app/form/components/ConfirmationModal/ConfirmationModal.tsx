@@ -1,6 +1,4 @@
 
-import { useState } from 'react'
-
 // @ts-ignore
 import Modal from 'react-modal'
 
@@ -8,6 +6,8 @@ import { Description, ReadOnlyContainer, StyledInputGroup  } from './styles'
 
 import { AiFillExclamationCircle } from 'react-icons/ai'
 import { Button } from '@/components';
+import { DayValue } from 'react-modern-calendar-datepicker';
+import { SlotTimeValue } from '../Calendar/interfaces';
 
 const customStyles = {
     content: {
@@ -24,36 +24,34 @@ const customStyles = {
     },
 };
 
-const ConfirmationModal: React.FC<{  }> = () => {
+interface ConfirmationModalProps {
+    isOpen: boolean
+    onCloseModal: () => void
+    confirmationData: () => { 
+        name: string, 
+        email: string, 
+        phone: string, 
+        selectedDay: string, 
+        slot: { id: string, value: SlotTimeValue, label: string } }
+}
 
-    
-    const [modalIsOpen, setIsOpen] = useState(false);
-
-    function openModal() {
-        setIsOpen(true);
-    }
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseModal, confirmationData }) => {
 
     function closeModal() {
-        setIsOpen(false);
+        onCloseModal()
     }
+
+    const confirmation_data = confirmationData()
 
     return (
         <>
         <Modal
-            isOpen={modalIsOpen}
-            //isOpen={true}
-            //onAfterOpen={afterOpenModal}
+            isOpen={isOpen}
             onRequestClose={closeModal}
             style={customStyles}
-            contentLabel="Example Modal"
         >
 
             <div>
-                {/* <div style={{ marginBottom: 8 }}>
-                    <span style={{ color: '#2868ad' }}>
-                        Você receberá um link de validação no e-mail cadastrado para confirmar o agendamento. <br />
-                    </span>
-                </div> */}
                 <div style={{ display: 'flex', alignItems: 'flex-start', border: '0.5px solid #e0e0e0', padding: 8 }}>
                     <div style={{ marginRight: 4, height: '100%', display: 'flex', alignItems: 'center' }}>
                         <AiFillExclamationCircle color="#c0131d" size={25} />
@@ -67,12 +65,12 @@ const ConfirmationModal: React.FC<{  }> = () => {
             <h3 style={{ margin: 20, color: '#2868ad' }}>Confirme seus dados</h3>
 
             <StyledInputGroup>
-                <ReadOnlyField field={'Nome'} value={'Tiago Curi'} />
-                <ReadOnlyField field={'Email'} value={'shopper.tiago@gmail.com'} />
+                <ReadOnlyField field={'Nome'} value={confirmation_data.name} />
+                <ReadOnlyField field={'Email'} value={confirmation_data.email} />
             </StyledInputGroup>
             <StyledInputGroup>
-                <ReadOnlyField field={'Data'} value={'30/08/2023'} />
-                <ReadOnlyField field={'Hora'} value={'10:00 AM'} />
+                <ReadOnlyField field={'Data'} value={confirmation_data.selectedDay} />
+                <ReadOnlyField field={'Hora'} value={confirmation_data.slot.label} />
             </StyledInputGroup>
             <ReadOnlyField field={'Telefone'} value={'(21) 97741-2995'} />
 

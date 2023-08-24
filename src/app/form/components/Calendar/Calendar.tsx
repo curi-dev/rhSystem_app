@@ -1,27 +1,46 @@
 import React from 'react';
-
 import { Calendar } from "react-modern-calendar-datepicker";
 
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-
-import { Description } from '../PersonalData/styles';
 import { Title } from '@/components';
 
-import { TimeSlotContainer, SlotContainer } from './styles'
+import { SlotTimeValue } from './interfaces';
 
+import { Description } from '../PersonalData/styles';
+import { TimeSlotContainer, SlotContainer } from './styles'
 
 import { BsFillCalendarCheckFill } from 'react-icons/bs'
 
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
 
-const CalendarComponent = () => {
 
+export const slots_mock = [
+    { id: "", value: SlotTimeValue.SLOT_1, label: "6:00 AM - 7:00 AM" },
+    { id: "", value: SlotTimeValue.SLOT_2, label: "7:00 AM - 8:00 AM" },
+    { id: "", value: SlotTimeValue.SLOT_3, label: "8:00 AM - 9:00 AM" },
+    { id: "", value: SlotTimeValue.SLOT_4, label: "9:00 AM - 10:00 AM" },
+    { id: "", value: SlotTimeValue.SLOT_5, label: "10:00 AM - 11:00 AM" },
+    { id: "", value: SlotTimeValue.SLOT_6, label: "11:00 AM - 12:00 PM" },
+    { id: "", value: SlotTimeValue.SLOT_8, label: "12:00 PM - 13:00 PM" },
+    { id: "", value: SlotTimeValue.SLOT_9, label: "13:00 AM - 14:00 PM" },
+    { id: "", value: SlotTimeValue.SLOT_10, label: "14:00 PM - 15:00 PM" },
+    { id: "", value: SlotTimeValue.SLOT_11, label: "15:00 PM - 16:00 PM" },
+    { id: "", value: SlotTimeValue.SLOT_12, label: "16:00 PM - 17:00 PM" }
+]
+
+interface CalendarProps {
+    values: any
+    actions: any
+}
+
+// elevation of state
+const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
     
-    const [selectedDay, setSelectedDay] = React.useState(null);
-
+    console.log("values: ", values)
+    
     return (
         <>
             <Description>
-                Agende sua entrevista
+                Escolha o dia e a hora
             </Description>
 
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 28 }}>
@@ -32,17 +51,24 @@ const CalendarComponent = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }} >
                 <Calendar
                     // @ts-ignore
-                    value={selectedDay}
+                    value={values.selectedDay}
                     // @ts-ignore
-                    onChange={setSelectedDay}
+                    onChange={actions.onChangeSelectedDay}
                     shouldHighlightWeekends
 
                     calendarClassName='custom-calendar'
                 />
 
                 <TimeSlotContainer >
-                    {Array.from({ length: 15 }).map(s => (
-                        <Slot clickable={true} />
+                    {slots_mock && slots_mock.length > 0 && slots_mock?.map((s, i) => (
+                        <Slot 
+                            label={s.label.split(" - ")[0]}
+                            key={i} 
+                            clickable={true} 
+                            onChangeSlotTime={() => actions.onChangeSlot(s.value)} 
+                            selected={values.slot === s.value}  
+                            disabled={!(values.selectedDay)}                        
+                        />
                     ))}
                 </TimeSlotContainer >
             </div>
@@ -50,11 +76,30 @@ const CalendarComponent = () => {
     )
 }
 
+interface SlotProps {
+    selected?: boolean 
+    label?: string 
+    icon?: React.ReactNode 
+    size?: string 
+    clickable?: boolean 
+    onChangeSlotTime?: () => void
+    disabled?: boolean
+}
 
-export const Slot: React.FC<{ label?: string, icon?: React.ReactNode, size?: string, clickable?: boolean }> = ({ label, icon, size, clickable }) => {
+
+export const Slot: React.FC<SlotProps> = ({ selected, label, icon, size, clickable, onChangeSlotTime, disabled }) => {
+
 
     return (
-        <SlotContainer size={size} clickable={clickable}>         
+        <SlotContainer 
+            $size={size} 
+            $clickable={clickable} 
+            onClick={() => {
+                if (!disabled && onChangeSlotTime) onChangeSlotTime()
+            }}
+            $selected={selected ?? false}
+            $disabled={disabled}
+        >         
             {icon}
             
             {label ?? "10:00h"}

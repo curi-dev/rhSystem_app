@@ -18,21 +18,22 @@ export const TimeSlotContainer = styled.div<{ color?: string }>`
     background-color: ${({ color }) => color ? color : 'transparent'};
 `
 
-export const SlotContainer = styled.div<{ size?: string, clickable?: boolean }>`
-    width: ${({ size }) => size ? `${size}px` : '100%'};
+export const SlotContainer = styled.div<{ $size?: string, $clickable?: boolean, $selected: boolean, $disabled?: boolean }>`
     height: 39px;
-
-    color: #2868ad;
-
     display: flex;
     align-items: center;
     justify-content: center;
 
     border-radius: 8px;
-    border: 1px solid #2868ad;
+    border-width: 1px;
+    border-style: solid;
     margin-bottom: 8px;
-
-    cursor: ${({ clickable }) => clickable && "pointer"};
+    
+    width: ${({ $size }) => $size ? `${$size}px` : '100%'};
+    background-color: ${({ $selected, $disabled }) => $selected && !$disabled ? '#2868ad' : '#fff'};
+    border-color: ${({ $disabled }) => $disabled ? '#e0e0e0' : '#2868ad'};
+    color: ${({ $selected, $disabled }) => $disabled ? '#e0e0e0' : $selected ? "#fff" : '#2868ad'};
+    cursor: ${({ $clickable }) => $clickable && "pointer"};
 
     & svg {
         margin-right: 4px;

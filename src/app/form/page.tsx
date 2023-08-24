@@ -1,10 +1,10 @@
 "use client"
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
 
 import { Button, Header } from '../../components'
-import { Slot } from './components/Calendar/Calendar'
+import { Slot, slots_mock } from './components/Calendar/Calendar'
 
 import { StyledContainer, Footer, SideMenu, InterviewInformation } from './styles'
 import { CalendarComponent, PersonalData } from './components'
@@ -12,56 +12,100 @@ import { Description } from './components/PersonalData/styles'
 
 import { BsFillStopwatchFill } from 'react-icons/bs'
 import { ConfirmationModal } from './components/ConfirmationModal/ConfirmationModal'
+import { DayValue } from 'react-modern-calendar-datepicker'
+import { SlotTimeValue } from './components/Calendar/interfaces'
 
 
 
 const Form = () => {
     const methods = useForm({ mode: 'onBlur',  })
+    const { formState: { errors }, getValues } = methods
+    
 
     const [step, setStep] = useState<number>(0)
-    console.log("step: ", step)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    
+    const [selectedDay, setSelectedDay] = useState<DayValue | null>(null);
+    const [slot, setSlot] = useState<SlotTimeValue | null>(null)
+
 
     const steps: any = {
         0: {
             'component': <PersonalData />,
-            //'fieldsToValidate': ["name", "email", "phone"]
-            'fieldsToValidate': ["name", "email"]
+            'next': () => {
+                setStep(step +1)
+            },
+            'validate': () => {
+                //let fields_to_validate = ["name", "email", "phone"]
+                let fields_to_validate = ["name", "email"]
+                for (let i = 0; i < fields_to_validate.length; i++) {
+                    if (Object.keys(errors).includes(fields_to_validate[i])) {                
+                        return false
+                    }
+                }
+
+                return true
+            }
+
         },
         1: {
-            'component': <CalendarComponent />},
-            'fieldsToValidate': ["date", "slot"]
+            'component': <CalendarComponent 
+                            values={{ selectedDay, slot }} 
+                            actions={{ onChangeSelectedDay: (v: any) => setSelectedDay(v), onChangeSlot: (v: SlotTimeValue) => setSlot(v) }} />},
+            'next': () => {
+                setIsModalOpen(true)
+            },
+            'validate': () => {
+                if (selectedDay && slot) {
+                    return true
+                }
+
+                return false
+            }
         }
     
-    const getFieldsToValidate = () => {
-        return steps[step]['fieldsToValidate']
-    }
-
+    
     const handleOnProgress = (num: number) => {
         if (num < 0) {
             setStep(step + (num))       
             return 
         }
-        
-        const { formState: { errors } } = methods
-        console.log("errors: ", errors)
 
-        const fields_to_validate = getFieldsToValidate() as string[]
+        let fieldFilled = steps[step]['validate']()
 
-        for (let i = 0; i < fields_to_validate.length; i++) {
-            if (Object.keys(errors).includes(fields_to_validate[i])) {
-                // disparar erro
-                
-                return
-            }
+        if (fieldFilled) {
+            steps[step]['next']()
         }
-        
-        setStep(step + (num))       
     }
 
+    const getTime = () => {
+        let currSelectedSlot = slots_mock.find(s => s.value === slot)
+
+        return currSelectedSlot
+    }
 
     const onSubmit = (data: any) => console.log(data);
 
     const displayBackBtn = step === 0 && "hidden" 
+
+    
+    function GetConfirmationData() {
+        const { name, email, phone } = getValues()
+        
+        let confirmationData = { 
+            name: name as string,
+            email: email as string,
+            phone: phone as string,
+            selectedDay: getDate() as string,
+            slot: getTime() as { id: string, value: SlotTimeValue, label: string }
+        }
+
+        return confirmationData
+    }
+
+    function getDate() {
+        return `${selectedDay?.day}/${selectedDay?.month}/${selectedDay?.year}`
+    }
 
     return (
         <>
@@ -69,7 +113,7 @@ const Form = () => {
             <SideMenu >
                 <div>
                     <Description>
-                        Processo seletivo
+                        #Processo seletivo
                     </Description>
                     <h3 style={{ marginTop: 12, color: '#2868ad' }}>Marque sua entrevista</h3>
 
@@ -87,7 +131,13 @@ const Form = () => {
 
                         <div>
                             <span>
-                                Não definido
+                                {
+                                    selectedDay ? (
+                                        getDate()
+                                    ) : (
+                                        "Não definido"
+                                    )
+                                }
                             </span>
                         </div>
                     </div>
@@ -102,7 +152,16 @@ const Form = () => {
                         </div>
                         <div>
                             <span>
-                                Não definido
+                            {
+                                (() => {
+                                    const time = getTime()
+                                    if (time) {
+                                        return time['label']
+                                    }
+
+                                    return "Não definido"
+                                })()
+                            }
                             </span>
                         </div>
                     </div>
@@ -117,7 +176,17 @@ const Form = () => {
                 </div>
             </form>
 
-            { <ConfirmationModal /> }
+            { 
+                isModalOpen && (
+                    <ConfirmationModal 
+                        isOpen={isModalOpen} 
+                        onCloseModal={function (): void {
+                            setIsModalOpen(false)
+                        }} 
+                        confirmationData={GetConfirmationData} 
+                    /> 
+                )
+            }
             </FormProvider>
 
         </StyledContainer>

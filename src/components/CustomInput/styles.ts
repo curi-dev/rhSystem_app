@@ -10,8 +10,6 @@ export const StyledContainer = styled.div`
         color: #2868ad;
         font-weight: 700;
     }
-
-    /* border: 1px solid yellow; */
 `; 
 
 
@@ -22,6 +20,7 @@ export const StyledInputWrapper = styled.div<{ $isFocus?: boolean, $display?: bo
     margin-top: 4px;
 
     background-color: transparent;
+    background-color: #fff;
     border-radius: 4px;
 
     border-color: ${({ $isFocus }) => $isFocus ? "#2868ad" : "#c0c0c0"};
@@ -35,8 +34,6 @@ export const StyledInputWrapper = styled.div<{ $isFocus?: boolean, $display?: bo
     cursor: pointer;
 
     position: relative;
-
-    /* border: 1px solid blue; */
 
 `
 
@@ -55,6 +52,7 @@ export const StyledInput = styled.input<{ $display?: string }>`
     ${({ $display }) => {
         if (!$display) {
             return css`
+                //background-color: #fff;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -69,8 +67,6 @@ export const HelperText = styled.span<{ $hasError?: boolean }>`
     color: ${({ $hasError }) => $hasError ? 'red' : '#c0c0c0'};
     font-size: 12px;
     width: 100%; max-width: 100%;
-    
-    /* border: 1px solid red; */
 
 `
 

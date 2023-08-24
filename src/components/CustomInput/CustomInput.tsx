@@ -60,10 +60,10 @@ const Input: React.FC<InputWrapperProps> = ({
                 {
                     type === 'file' && (
                         <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <span style={{ color: '#c0c0c0'}}>
+                            <span style={{ color: '#2868ad'}}>
                                 Upload do arquivo
                             </span>
-                            <AiOutlineUpload color="#c0c0c0" />
+                            <AiOutlineUpload color="#2868ad" />
                         </div>
                     )
                 }          
