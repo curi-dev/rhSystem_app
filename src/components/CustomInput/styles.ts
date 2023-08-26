@@ -67,6 +67,6 @@ export const HelperText = styled.span<{ $hasError?: boolean }>`
     color: ${({ $hasError }) => $hasError ? 'red' : '#c0c0c0'};
     font-size: 12px;
     width: 100%; max-width: 100%;
-
+    font-weight: 700;
 `
 

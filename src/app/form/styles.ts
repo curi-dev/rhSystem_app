@@ -8,16 +8,22 @@ export const StyledContainer = styled.div`
     display: flex;
     overflow: hidden;
 
-    max-width: 800px;
+    max-width: 872px;
 
     margin: 0 auto;
 
     background-color: #fff;
 `
 
+export const Content = styled.div`
+    width: 100%;
+    flex: 1;
+    padding: 16;
+`
+
 export const SideMenu = styled.menu`
-    width: 32%;
-    min-width: 173px;
+    width: 33%;
+    //min-width: 173px;
     border-right-color: #c0c0c0;
     //border-right-color: #c0131d;
     border-right-width: 1px;
@@ -41,26 +47,27 @@ export const SideMenu = styled.menu`
 
 export const Footer = styled.footer`
     width: 100%;
+    max-width: 872px;
     height: 84px;
 
     display: flex;
     padding: 16px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 
     border-top: 1px;
     border-top-color: #c0c0c0;
-    //border-top-color: #c0131d;
     border-top-style: solid;
 
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
 
     background-color: #fff;
     z-index: 15;
 
-    column-gap: calc(calc(100%) * 0.05);
+    //column-gap: calc(calc(100%) * 0.05);
 
     /* padding-left: calc(calc(100%) * 0.20);
     padding-right: calc(calc(100%) * 0.20); */
@@ -93,9 +100,7 @@ export const InterviewInformation = styled.div`
         & div span {
             font-weight: 700;
             font-size: 18px;
-        }
-
-        
+        }      
     }
 `
 

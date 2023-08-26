@@ -37,12 +37,21 @@ const PersonalData: React.FC<{  }> = () => {
                 type='text' 
                 helperText={"Você receberá um link de validação no e-mail cadastrado para confirmar o agendamento"} 
                 registerOptions={{ required: true, pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "email inválido" } }} 
+                // placeholder='Ex: candidato@gmail.com'
             />
-            <InputMaskComponent label={"Telefone"} field='phone' mask={'(99) 99999-9999'} registerOptions={{ required: true, pattern: { value: /^[0-9]{11}$/, message: "número de telefone inválido" } }} />
+            <InputMaskComponent 
+                label={"Telefone"} 
+                field='phone' 
+                mask={'(99) 99999-9999'} 
+                registerOptions={{ required: true, pattern: { value: /^[0-9]{11}$/, message: "número de telefone inválido" } }} 
+                // placeholder='(21) 97742-3232'
+            />
             
-            <div style={{ width: '100%', borderRadius: '12px', backgroundColor: '#2868ad', border: 'none', height: 152, padding: 16 }}>
+            <div style={{ width: '100%', borderRadius: '6px', backgroundColor: '#2868ad', border: 'none', height: 152, padding: 16 }}>
                 <div style={{ 
                     //color: '#2868ad', 
+                    color: '#c0c0c0',
+                    //fontWeight: 600,
                     marginBottom: 16, 
                     fontSize: 14 
                 }}>
@@ -50,7 +59,12 @@ const PersonalData: React.FC<{  }> = () => {
                     Este item é obrigatório. Só aceitamos arquivos em formato '.pdf'.
                     {/* <AiFillFilePdf /> */}
                 </div>
-                <Input label={""} field='resume' type='file' registerOptions={undefined} />
+                <Input 
+                    label={""} 
+                    field='resume' 
+                    type='file' 
+                    registerOptions={undefined} 
+                />
             </div>
         </>
     )

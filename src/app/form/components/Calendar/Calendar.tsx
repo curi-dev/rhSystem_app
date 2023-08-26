@@ -1,5 +1,5 @@
-import React from 'react';
-import { Calendar } from "react-modern-calendar-datepicker";
+import React, { useEffect } from 'react';
+import { Calendar, DayValue } from "react-modern-calendar-datepicker";
 
 import { Title } from '@/components';
 
@@ -12,6 +12,9 @@ import { BsFillCalendarCheckFill } from 'react-icons/bs'
 
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 
+import { useSlots } from '@/hooks/useSlots';
+
+// #c1131e
 export const months = {
     1: "Janeiro",
     2: "Fevereiro",
@@ -49,8 +52,15 @@ interface CalendarProps {
 
 // elevation of state
 const CalendarComponent: React.FC<CalendarProps> = ({ actions, values, isModalOpen }) => {
+
+    const { slots, fetchSlots, isLoadingSlots } = useSlots()
+
+    useEffect(() => {
+        fetchSlots()
+    }, [])
+
     
-    
+
     return (
         <>
             <Description>
@@ -62,29 +72,41 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values, isModalOp
                 <Title text={"Horários disponíveis"} />
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }} >
-                    <Calendar
-                        // @ts-ignore
-                        value={values.selectedDay}
-                        // @ts-ignore
-                        onChange={actions.onChangeSelectedDay}
-                        shouldHighlightWeekends
+            <div style={{ display: 'flex', justifyContent: 'stretch', flex: 1, width: '100%' }} >
+            
+                <Calendar
+                    // @ts-ignore
+                    value={values.selectedDay}
+                    // @ts-ignore
+                    onChange={actions.onChangeSelectedDay}
+                    
+                    shouldHighlightWeekends
 
-                        // renderFooter={true}
-                        calendarClassName='custom-calendar'
-                    />
+                    // renderFooter={true}
+                    calendarClassName='custom-calendar'
+                />
+
                 <TimeSlotContainer >
-                    {slots_mock && slots_mock.length > 0 && slots_mock?.map((s, i) => (
-                        <Slot 
-                            label={s.label.split(" - ")[0]}
-                            key={i} 
-                            clickable={true} 
-                            onChangeSlotTime={() => actions.onChangeSlot(s.value)} 
-                            selected={values.slot === s.value}  
-                            disabled={!(values.selectedDay)}                        
-                        />
-                    ))}
+                    {
+                        isLoadingSlots ? (
+                            <span>
+                                isLoadingSlots
+                            </span>
+                        ) : (
+                            slots && slots.length > 0 && slots.map((s, i) => (
+                                <Slot 
+                                    label={s.Label.split(" - ")[0]}
+                                    key={i} 
+                                    clickable={true} 
+                                    onChangeSlotTime={() => actions.onChangeSlot(s.Value)} 
+                                    selected={values.slot === s.Value}  
+                                    disabled={!(values.selectedDay)}                        
+                                />
+                            ))
+                        )
+                    }
                 </TimeSlotContainer >
+            
             </div>
         </>   
     )
@@ -114,9 +136,7 @@ export const Slot: React.FC<SlotProps> = ({ selected, label, icon, size, clickab
             $selected={selected ?? false}
             $disabled={disabled}
         >         
-            {icon}
-            
-            {label ?? "10:00h"}
+            {icon}{label}
         </SlotContainer>
     )
 }

@@ -7,7 +7,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { Button, Header } from '../../components'
 import { Slot, months, slots_mock } from './components/Calendar/Calendar'
 
-import { StyledContainer, Footer, SideMenu, InterviewInformation } from './styles'
+import { StyledContainer, Footer, SideMenu, InterviewInformation, Content } from './styles'
 import { CalendarComponent, PersonalData } from './components'
 import { Description } from './components/PersonalData/styles'
 
@@ -16,19 +16,31 @@ import { ConfirmationModal } from './components/ConfirmationModal/ConfirmationMo
 import { DayValue } from 'react-modern-calendar-datepicker'
 import { SlotTimeValue } from './components/Calendar/interfaces'
 
+import { useSlots } from '@/hooks/useSlots'
+import SlotsProvider from '@/providers/SlotsProvider'
+
 
 
 const Form = () => {
     const methods = useForm({ mode: 'onBlur',  })
     const { formState: { errors }, getValues } = methods
-    
 
+    const { fetchAvailableSlots } = useSlots()
+    console.log("fetchAvailableSlots: ", fetchAvailableSlots)
+    
     const [step, setStep] = useState<number>(0)
     
     const [isModalOpen, setIsModalOpen] = useState(false)
     
     const [selectedDay, setSelectedDay] = useState<DayValue | null>(null);
     const [slot, setSlot] = useState<SlotTimeValue | null>(null)
+
+
+    const handleOnCalendarChange = (v: DayValue) => {
+        setSelectedDay(v)
+
+        fetchAvailableSlots(v)
+    }
 
 
     const steps: any = {
@@ -54,7 +66,7 @@ const Form = () => {
             component: <CalendarComponent 
                             isModalOpen={isModalOpen}
                             values={{ selectedDay, slot }} 
-                            actions={{ onChangeSelectedDay: (v: any) => setSelectedDay(v), onChangeSlot: (v: SlotTimeValue) => setSlot(v) }} 
+                            actions={{ onChangeSelectedDay: (v: DayValue) => handleOnCalendarChange(v), onChangeSlot: (v: SlotTimeValue) => setSlot(v) }} 
                         />,
             next: () => {
                 setIsModalOpen(true)
@@ -174,13 +186,14 @@ const Form = () => {
                 </InterviewInformation>
 
             </SideMenu >
-            <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-                <div style={{ flex: 1, padding: '20px' }}>
+                <Content>
                     <Header />
-                    {steps[step]['component']}
-                </div>
-            </form>
+                    <FormProvider {...methods}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)} style={{ width: '100%', padding: 16 }} >
+                        {steps[step]['component']}
+                    </form>
+                    </FormProvider>
+                </Content>
 
             { 
                 isModalOpen && (
@@ -193,7 +206,6 @@ const Form = () => {
                     /> 
                 )
             }
-            </FormProvider>
 
         </StyledContainer>
         <Footer>

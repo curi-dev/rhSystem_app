@@ -1,1 +1,0 @@
-export { FetchCepService } from './fetchCepService'
