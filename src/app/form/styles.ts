@@ -23,17 +23,13 @@ export const Content = styled.div`
 
 export const SideMenu = styled.menu`
     width: 33%;
-    //min-width: 173px;
     border-right-color: #c0c0c0;
-    //border-right-color: #c0131d;
     border-right-width: 1px;
     border-right-style: solid;
     
-    padding: 16px;
-
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    //justify-content: space-between;
 
     padding-bottom: 84px;
 
@@ -84,6 +80,10 @@ export const InterviewInformation = styled.div`
 
     padding: 16px;
 
+    position: relative;
+
+    //margin-top: auto;
+
     & > div {
         height: 50%;
 
@@ -103,4 +103,23 @@ export const InterviewInformation = styled.div`
         }      
     }
 `
+
+// export const LogoWrapper = styled.div`
+//     width: 100%; height: 102; position: relative; margin-top: 20; margin-bottom: 32;
+
+//     & img {
+//         width: 100;
+//         min-width: 175; 
+//         max-height: 100%; 
+//         object-fit: cover; 
+        
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+        
+//         margin-left: 50%;
+//         transform: translateX(-50%); 
+//     }
+
+// `
 

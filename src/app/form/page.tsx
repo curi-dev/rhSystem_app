@@ -1,5 +1,7 @@
 "use client"
 
+import Image from 'next/image'
+
 import { useState } from 'react'
 
 import { useForm, FormProvider } from 'react-hook-form'
@@ -17,8 +19,8 @@ import { DayValue } from 'react-modern-calendar-datepicker'
 import { SlotTimeValue } from './components/Calendar/interfaces'
 
 import { useSlots } from '@/hooks/useSlots'
-import SlotsProvider from '@/providers/SlotsProvider'
 
+import Logo from '../../../public/wa_group.jpg'
 
 
 const Form = () => {
@@ -128,15 +130,44 @@ const Form = () => {
         <>
         <StyledContainer>
             <SideMenu >
-                <div>
+                <div 
+                    style={{ 
+                        width: '100%', 
+                        height: 194, 
+                        position: 'relative',
+                        left: 0,
+                        top: 0,
+                        marginBottom: 32, 
+                        //border: '2px solid #c1131e' 
+                    }}>
+                    <Image 
+                        src={Logo} 
+                        alt='Logo WA' 
+                        style={{ 
+                            width: 100,
+                            minWidth: 175, 
+                            maxHeight: '100%', 
+                            objectFit: 'cover', 
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            marginLeft: '50%',
+                            marginTop: '25%',
+                            transform: 'translate(-50%, 0)' 
+                        }} 
+                    />
+                </div>
+                <div style={{ padding: 16 }}>
                     <Description>
                         #Processo seletivo
                     </Description>
+                    
+
                     <h3 style={{ marginTop: 12, color: '#2868ad' }}>Marque sua entrevista</h3>
 
                     <Slot label='30-60min' icon={<BsFillStopwatchFill />} size="123" />
                 </div>
-
+                <div style={{ paddingLeft: 16, paddingRight: 16, marginTop: 'auto' }}>
                 <InterviewInformation>
                     <div>
                         {/* first-child */}
@@ -152,8 +183,8 @@ const Form = () => {
                                     selectedDay ? (
                                         // @ts-ignore
                                         `${selectedDay.day}.${months[selectedDay.month]}.${selectedDay.year}`
-                                    ) : (
-                                        "Por favor selecione"
+                                        ) : (
+                                        step === 0 ? "Próxima Etapa" : "Por favor Selecione"
                                     )
                                 }
                             </span>
@@ -177,13 +208,14 @@ const Form = () => {
                                         return time['label']
                                     }
 
-                                    return "Por favor selecione"
+                                    return step === 0 ? "Próxima Etapa" : "Por favor Selecione"
                                 })()
                             }
                             </span>
                         </div>
                     </div>
                 </InterviewInformation>
+                </div>
 
             </SideMenu >
                 <Content>

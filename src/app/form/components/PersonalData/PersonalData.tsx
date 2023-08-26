@@ -27,10 +27,10 @@ const PersonalData: React.FC<{  }> = () => {
                 field='name' 
                 type='text' 
                 registerOptions={{ 
-                        required: "nome com 2 caracteres é obrigatório", 
-                        minLength: { value: 2, message: "nome com 2 caracteres é obrigatório"} 
-                    }} 
-                />
+                    required: "nome com 2 caracteres é obrigatório", 
+                    minLength: { value: 2, message: "nome com 2 caracteres é obrigatório"} 
+                }} 
+            />
             <Input 
                 label={"Email"} 
                 field='email' 

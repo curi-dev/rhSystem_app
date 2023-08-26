@@ -45,10 +45,11 @@ const SlotsProvider = ({ children }: any) => {
     const fetchAvailableSlots = (splittedDate: DayValue) => {
         
         console.log("fetching available slots")
-
+        
         setIsLoadingAvaiableSlots(true)
         GetAvaiableSlotService(splittedDate)
         .then(r => {
+            console.log("fetching available slots: R => ", r)
             setAvaiableSlots(r) 
         })
         .catch(e => {

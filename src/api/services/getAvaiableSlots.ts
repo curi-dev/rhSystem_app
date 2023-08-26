@@ -13,7 +13,9 @@ async function GetAvaiableSlotService(splittedDate: DayValue) {
 
     console.log("splittedDate: ", splittedDate)
    
-    const response = await api.post("/slots/filter", { params: { splitted_date: splittedDate } })
+    const response = await api.get("/slots/filter", { params: { year: splittedDate?.year, month: splittedDate?.month, day: splittedDate?.day } })
+
+    console.log("response: ", response)
 
     if (response.status === 200) {
         return response.data

@@ -33,7 +33,7 @@ export const SlotContainer = styled.div<{ $size?: string, $clickable?: boolean, 
     background-color: ${({ $selected, $disabled }) => $selected && !$disabled ? '#2868ad' : '#fff'};
     border-color: ${({ $disabled }) => $disabled ? '#e0e0e0' : '#2868ad'};
     color: ${({ $selected, $disabled }) => $disabled ? '#e0e0e0' : $selected ? "#fff" : '#2868ad'};
-    cursor: ${({ $clickable }) => $clickable && "pointer"};
+    cursor: ${({ $clickable, $disabled }) => $disabled ? 'not-allowed' : $clickable && 'pointer'};
 
     & svg {
         margin-right: 4px;
