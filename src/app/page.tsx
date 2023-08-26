@@ -7,24 +7,28 @@ import { StyledContainer as InputContainer, HelperText, StyledInput, StyledInput
 import HeaderImage from './header-image.jpg'
 
 import Logo from '../../public/wa_group.jpg'
+import { Button } from '@/components'
 
 
 export default function Home() {
 
   const [isFocus, setIsFocus] = useState(false)
 
+  const [email, setEmail] = useState("")
+
+
   return (
     <StyledContainer>
       <StyledHeader>
         <Image src={HeaderImage} alt={'call-center'} fill />
       </StyledHeader>
-      <div style={{ marginTop: 382, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ width: 400, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <Image 
           src={Logo} 
           alt='Logo WA' 
-          style={{ width: 150, marginRight: 20 }} 
+          style={{ width: 150, marginBottom: 32 }} 
         />
-        <InputContainer>
+        <InputContainer $size={'100%'}>
           <label >
               Email do candidato
           </label>
@@ -36,6 +40,7 @@ export default function Home() {
               {/* helper text */}
           </HelperText>
         </InputContainer>
+        <Button text={'Começar'} size={"100%"} />
       </div>
       <StyledFooter>
         @ Todos os direitos reservados.
