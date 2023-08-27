@@ -20,7 +20,6 @@ export const StyledButton = styled.button<{ $hollow?: boolean, $size?: number | 
             return css`
                 background-color: #fff;
                 outline: none;
-                border: 1px solid #000000;
                 border: 1px solid #2868ad;
                 color: #2868ad;
             `

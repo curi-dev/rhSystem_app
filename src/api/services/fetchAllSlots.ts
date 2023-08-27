@@ -1,7 +1,7 @@
 import api from "..";
 
 
-export async function fetchAllSlotsService() {
+export async function fetchAllSlotsService() { // not a good name
 
     const response = await api.get("/slots/index")
 

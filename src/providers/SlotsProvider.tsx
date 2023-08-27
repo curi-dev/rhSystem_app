@@ -23,12 +23,10 @@ const SlotsProvider = ({ children }: any) => {
     const [avaiableSlots, setAvaiableSlots] = useState([])
     
     console.log("slots: ", slots)
+    
     console.log("avaiableSlots: ", avaiableSlots)
 
     const fetchSlots = async () => {
-        
-        console.log("fetching slots")
-
         setIsLoadingSlots(true)
         fetchAllSlotsService()
         .then(r => {
@@ -43,9 +41,6 @@ const SlotsProvider = ({ children }: any) => {
     }
 
     const fetchAvailableSlots = (splittedDate: DayValue) => {
-        
-        console.log("fetching available slots")
-        
         setIsLoadingAvaiableSlots(true)
         GetAvaiableSlotService(splittedDate)
         .then(r => {

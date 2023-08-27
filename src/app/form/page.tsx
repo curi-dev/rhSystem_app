@@ -7,9 +7,9 @@ import { useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 
 import { Button, Header } from '../../components'
-import { Slot, months, slots_mock } from './components/Calendar/Calendar'
+import { Slot } from './components/Calendar/Calendar'
 
-import { StyledContainer, Footer, SideMenu, InterviewInformation, Content } from './styles'
+import { StyledContainer, Footer, SideMenu, Content } from './styles'
 import { CalendarComponent, PersonalData } from './components'
 import { Description } from './components/PersonalData/styles'
 
@@ -21,13 +21,14 @@ import { SlotTimeValue } from './components/Calendar/interfaces'
 import { useSlots } from '@/hooks/useSlots'
 
 import Logo from '../../../public/wa_group.jpg'
+import { AppointmentDatetimeDetails } from '@/components/AppointmentDatetimeDetails/AppointmentDatetimeDetails'
 
 
 const Form = () => {
     const methods = useForm({ mode: 'onBlur',  })
     const { formState: { errors }, getValues } = methods
 
-    const { fetchAvailableSlots } = useSlots()
+    const { fetchAvailableSlots, slots } = useSlots()
     console.log("fetchAvailableSlots: ", fetchAvailableSlots)
     
     const [step, setStep] = useState<number>(0)
@@ -98,7 +99,7 @@ const Form = () => {
     }
 
     const getTime = () => {
-        let currSelectedSlot = slots_mock.find(s => s.value === slot)
+        let currSelectedSlot = slots.find(s => s.value === slot)
 
         return currSelectedSlot
     }
@@ -125,6 +126,8 @@ const Form = () => {
     function getDate() {
         return `${selectedDay?.day}/${selectedDay?.month}/${selectedDay?.year}`
     }
+
+    const time = getTime()
 
     return (
         <>
@@ -167,54 +170,15 @@ const Form = () => {
 
                     <Slot label='30-60min' icon={<BsFillStopwatchFill />} size="123" />
                 </div>
+
                 <div style={{ paddingLeft: 16, paddingRight: 16, marginTop: 'auto' }}>
-                <InterviewInformation>
-                    <div>
-                        {/* first-child */}
-                        <div>
-                            <span>
-                                DATA
-                            </span>
-                        </div>
-
-                        <div>
-                            <span>
-                                {
-                                    selectedDay ? (
-                                        // @ts-ignore
-                                        `${selectedDay.day}.${months[selectedDay.month]}.${selectedDay.year}`
-                                        ) : (
-                                        step === 0 ? "Próxima Etapa" : "Por favor Selecione"
-                                    )
-                                }
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* last child */}
-                    <div>
-                        {/* first-child */}
-                        <div>
-                            <span>
-                                HORÁRIO
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                            {
-                                (() => {
-                                    const time = getTime()
-                                    if (time) {
-                                        return time['label']
-                                    }
-
-                                    return step === 0 ? "Próxima Etapa" : "Por favor Selecione"
-                                })()
-                            }
-                            </span>
-                        </div>
-                    </div>
-                </InterviewInformation>
+                    <AppointmentDatetimeDetails 
+                        slots={slots} 
+                        selectedDay={selectedDay} 
+                        currStep={step} 
+                        slot={slot} 
+                        time={time} 
+                    />
                 </div>
 
             </SideMenu >

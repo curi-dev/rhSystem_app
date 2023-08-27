@@ -1,7 +1,10 @@
 import SlotsProvider from '@/providers/SlotsProvider'
-import './globals.css'
+import AppointmentsProvider from '@/providers/AppointmentsProvider'
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className='layout'>
           <SlotsProvider>
-            {children}
+            <AppointmentsProvider>
+              {children}
+            </AppointmentsProvider>
           </SlotsProvider>
         </div>
       </body>
