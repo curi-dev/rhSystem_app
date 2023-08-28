@@ -31,7 +31,8 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     
     const methods = useForm({ mode: 'onBlur',  })
     const { formState: { errors }, getValues } = methods
-    const { createCandidate, candidateCreationFailure, candidateCreationSuccess, isCreatingCandidate } = useCandidate()
+
+    const { createCandidate, isCreatingCandidate } = useCandidate()
     
     const { fetchAvailableSlots, slots } = useSlots()
     
@@ -42,11 +43,10 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
 
     useEffect(() => {
         if (!step) {
-            setStep(paramsStep)
+            setStep(Number(paramsStep))
         }
     }, [paramsStep])
     
-
     const handleOnCalendarChange = (v: DayValue) => {
         console.log("V: ", v)
 
@@ -55,15 +55,16 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         fetchAvailableSlots(v)
     }
 
-    const handleOnProgress = (num: number) => {
-        let validStep = step 
-
-        if (num < 0) {
-            setStep(Number(validStep) + (num))       
+    const handleOnProgress = (direction: 'back' | 'forward') => {
+        const validStep = Number(step) 
+        if (direction === 'back') {
+            setStep(validStep -1)    
             return 
         }
+    
+        let fieldFilled = steps[validStep]['validate']()
 
-        let fieldFilled = steps[Number(validStep)]['validate']()
+        console.log("fieldFilled: ", fieldFilled)
 
         if (fieldFilled) {
             steps[Number(validStep)]['next']()
@@ -88,13 +89,13 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const steps: any = {
         1: {
             'component': <PersonalData />,
+            
             next: async () => {
-                console.log("step: ", step)
-
                 const { name, email, phone } = getValues()
 
                 createCandidate({ Email: email, Phone: phone, Name: name })
                 .then(success => {
+                    console.log("success: ", success)
                     if (success) {
                         setStep(Number(step) +1)
                     }
@@ -104,9 +105,10 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                     // toast
                 })
             },
+            
             validate: () => {
-                //let fields_to_validate = ["name", "email", "phone"]
-                let fields_to_validate = ["name", "email"]
+
+                let fields_to_validate = ["name", "email", "phone"]
                 for (let i = 0; i < fields_to_validate.length; i++) {
                     if (Object.keys(errors).includes(fields_to_validate[i])) {                
                         return false
@@ -118,17 +120,20 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
 
         },
         2: {
-            component: <CalendarComponent values={{ selectedDay, slot }} 
-                            actions={
-                                { 
-                                    onChangeSelectedDay: (v: DayValue) => handleOnCalendarChange(v), 
-                                    onChangeSlot: (v: SlotTimeValue) => setSlot(v) 
-                                }
-                            } 
-                        />,
+            component: <CalendarComponent 
+                values={{ selectedDay, slot }} 
+                actions={
+                    { 
+                        onChangeSelectedDay: (v: DayValue) => handleOnCalendarChange(v), 
+                        onChangeSlot: (v: SlotTimeValue) => setSlot(v) 
+                    }
+                } 
+            />,
+            
             next: () => {
                 setIsModalOpen(true)
             },
+            
             validate: () => {
                 if (selectedDay && slot) {
                     return true
@@ -227,9 +232,9 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         <Footer>
             {/* @ts-ignore */}
             <div style={{ visibility: displayBackBtn }}>
-                <Button onClick={() => handleOnProgress(-1)} text={'Voltar'} hollow={true} />
+                <Button onClick={() => handleOnProgress('back')} text={'Voltar'} hollow={true} />
             </div>
-            <Button onClick={() => handleOnProgress(1)} text={'Avançar'} />
+            <Button onClick={() => handleOnProgress('forward')} text={'Avançar'} />
         </Footer>
         </>
     )

@@ -76,17 +76,19 @@ const CandidatesProvider = ({ children }: any) => {
             //setValidateKeyErrorMessage(response.message)
             setCandidateCreationFailure(true)
             setCandidateCreationSuccess(false)
+
+            setIsCreatingCandidate(false)
+            return false
         } else {
             console.log("candidate created! [context]", response)
             setCandidate({ Id: response.Id, ...candidate })
 
             setCandidateCreationSuccess(true)
             setCandidateCreationFailure(false)
+
+            setIsCreatingCandidate(false)
+            return true
         }
-
-        setIsCreatingCandidate(false)
-
-        return candidateCreationSuccess
     }
 
     const generateAccessKey = async (email: string) => {
