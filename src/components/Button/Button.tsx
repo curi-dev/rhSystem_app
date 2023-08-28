@@ -10,11 +10,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     size?: number | string
 }
 
-const Button: React.FC<ButtonProps> = ({ text, fill = true, hollow = false, size, ...props }) => {
 
+const Button: React.FC<ButtonProps> = ({ text, fill = true, hollow = false, size, ...rest }) => {
 
     return (
-        <StyledButton {...props} $hollow={hollow} $size={size} >
+        <StyledButton $hollow={hollow} $size={size} {...rest} >
             {text}
         </StyledButton>
     )

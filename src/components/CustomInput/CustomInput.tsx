@@ -1,6 +1,6 @@
 "use client"
 
-import { InputHTMLAttributes, useState } from 'react'
+import { InputHTMLAttributes, useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
 
 import { useFormContext } from 'react-hook-form'
@@ -25,12 +25,8 @@ const Input: React.FC<InputWrapperProps> = ({
     needsUpdateOnBlur = null, 
     registerOptions = { required: true }, ...props }) => {
 
-   
-    const { register, watch, formState: { errors }, trigger } = useFormContext()
-    const self = watch(field)
-    console.log("self: ", self)
-    console.log("errors: ", errors)
-
+    const { register, formState: { errors }, trigger } = useFormContext()
+    
     const [isFocus, setIsFocus] = useState(false)
 
     const { type } = props
@@ -73,13 +69,9 @@ const Input: React.FC<InputWrapperProps> = ({
                     //value={self}
                     onBlur={() => {
                         trigger(field)
-
                         setIsFocus(false)
                     }} 
-                    onFocus={() => {
-                        console.log("onFocus")
-                        return setIsFocus(true)
-                    }} 
+                    onFocus={() => setIsFocus(true)} 
                     
                     // @ts-ignore
                     $display={!isFileInput}
@@ -99,26 +91,65 @@ interface InputMaskComponentProps extends InputWrapperProps {
 }
 
 // Will work fine
-const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, mask }) => {
+const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, mask, registerOptions }) => {
 
     const [maskValue, setValueMask] = useState("")
+    const [isFocus, setIsFocus] = useState(false)
 
-    console.log("maskValue: ", maskValue)
+    const { register, trigger, formState: { errors }, setValue } = useFormContext()
+    console.log("errors: ", errors)
+
+    useEffect(() => {
+        register(field, registerOptions)
+    }, [])
+
+    const getHelperText = () => {
+        if (Object.keys(errors).includes(field)) {
+            return <HelperText $hasError>
+                    {/* @ts-ignore */}
+                    {errors.field?.message || "verifique novamente o campo"}
+                </HelperText>          
+        }
+    }
+
 
     return (
- 
-    <InputMask 
-        mask={mask} 
-        value={maskValue}
-        onChange={(e) => {
-            console.log(e.target.value)
-            setValueMask(e.target.value)
-        }} 
+        <InputMask 
+            mask={mask} 
+            value={maskValue}
+            onChange={(e) => {
+                const updatedValue = e.target.value
+                setValueMask(updatedValue)
 
-    >
+                const fieldValue = updatedValue.replace(/[-()]/g, "").replace(" ", "")
+                console.log("fieldValue: ", fieldValue)
+
+                setValue(field, fieldValue)
+            }} 
+
+        >
         {/* @ts-ignore */}
-      {(inputProps) => <Input {...inputProps} label={label} field={field} needsUpdateOnBlur={maskValue} />}
-    </InputMask>
+        {(inputProps) => (
+             <StyledContainer>
+             <label htmlFor={field}>
+                 {label}
+             </label>
+             <StyledInputWrapper $isFocus={isFocus} >
+                 <StyledInput
+                     onBlur={() => {
+                         trigger(field)
+                         setIsFocus(false)
+                     }} 
+                     onFocus={() => setIsFocus(true)} 
+                     {...inputProps}
+                 />
+             </StyledInputWrapper>
+             
+             {getHelperText()}
+             
+         </StyledContainer>
+        )}
+        </InputMask>
 )}
 
 

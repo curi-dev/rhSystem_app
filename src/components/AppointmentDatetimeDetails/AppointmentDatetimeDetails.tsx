@@ -1,19 +1,33 @@
 
 import { DayValue } from 'react-modern-calendar-datepicker'
 import { StyledContainer } from './styles'
-import { SlotTimeValue } from '@/app/form/components/Calendar/interfaces'
+import { Slot, SlotTimeValue } from '@/app/form/components/Calendar/interfaces'
 
+
+
+export const months = {
+    1: "Janeiro",
+    2: "Fevereiro",
+    3: "Março",
+    4: "Abril",
+    5: "Maio",
+    6: "Junho",
+    7: "Julho",
+    8: "Agosto",
+    9: "Setembro",
+    10: "Outubro",
+    11: "Novembro",
+    12: "Dezembro",
+}
 
 interface AppointmentDatetimeDetailsProps {
-    slots: any
     selectedDay: DayValue
     currStep?: number
-    slot: SlotTimeValue | null
-    time: any // type time / not semanthic
+    slot: Slot | undefined
 }
 
 
-const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({ slots, selectedDay, currStep, slot, time }) => {
+const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({ selectedDay, currStep, slot }) => {
 
 
     return (
@@ -52,7 +66,7 @@ const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({
             <div>
                 <span>
                 {
-                    time ? time['label'] : (
+                    slot?.Label ? slot.Label : (
                         currStep === 0 ? "Próxima Etapa" : "Por favor Selecione"
                     )
                 }

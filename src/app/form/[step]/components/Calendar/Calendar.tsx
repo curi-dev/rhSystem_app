@@ -16,21 +16,6 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { useSlots } from '@/hooks/useSlots';
 
 
-export const months = {
-    1: "Janeiro",
-    2: "Fevereiro",
-    3: "Março",
-    4: "Abril",
-    5: "Maio",
-    6: "Junho",
-    7: "Julho",
-    8: "Agosto",
-    9: "Setembro",
-    10: "Outubro",
-    11: "Novembro",
-    12: "Dezembro",
-}
-
 export const slots_mock = [
     { id: "", value: SlotTimeValue.SLOT_1, label: "6:00 AM - 7:00 AM" },
     { id: "", value: SlotTimeValue.SLOT_2, label: "7:00 AM - 8:00 AM" },
@@ -48,13 +33,12 @@ export const slots_mock = [
 interface CalendarProps {
     values: any
     actions: any
-    isModalOpen: boolean
 }
 
 // elevation of state
-const CalendarComponent: React.FC<CalendarProps> = ({ actions, values, isModalOpen }) => {
+const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
 
-    const { slots, fetchSlots, isLoadingSlots, avaiableSlots } = useSlots()
+    const { slots, fetchSlots, isLoadingSlots, avaiableSlots = [] } = useSlots()
     
     console.log("avaiableSlots: ", avaiableSlots)
 
@@ -64,38 +48,11 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values, isModalOp
 
     const handleIsDisabled = (slotValue: string): boolean => {
         const hasSelectedDay = !!(values.selectedDay)
-        const slotIsAvaiable = (avaiableSlots as number[]).includes(Number(slotValue))
-
-        console.log("hasSelectedDay: ", hasSelectedDay)
-        console.log("slotIsAvaiable: ", slotIsAvaiable)
+        const slotIsAvaiable = (avaiableSlots as number[])?.includes(Number(slotValue))
 
         return !hasSelectedDay || !slotIsAvaiable
     }
 
-
-    // const dayValue = useMemo(() => {
-    //     const today = new Date()
-    //     let day = today.getDate()
-    //     let month = today.getMonth() 
-    //     let year = today.getFullYear()
-
-    //     if (month === 11) {
-    //         month = 0
-    //     } else {
-    //         month++
-    //     }
-
-    //     console.log("day: ", day)
-    //     console.log("month: ", month)
-    //     console.log("year: ", year)
-
-
-    //     return {
-    //         day,
-    //         month,
-    //         year
-    //     }
-    // }, [])
 
     return (
         <>

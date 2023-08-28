@@ -9,9 +9,21 @@ const useAppointments = () => {
         throw new Error("hook must be used within a provider")
     }
 
-    const { confirmAppointment, isConfirmingAppointment, appointmentConfirmationFailure, appointmentConfirmationSuccess } = context
+    const { 
+        sendAppointmentFailure,
+        sendAppointmentSuccess,
+        sendNewAppointment,
+        sendingAppointment,
+        confirmAppointment, 
+        isConfirmingAppointment,
+        appointmentConfirmationFailure, 
+        appointmentConfirmationSuccess } = context
 
     return {
+        sendAppointmentFailure,
+        sendAppointmentSuccess,
+        sendNewAppointment,
+        sendingAppointment,
         confirmAppointment,
         isConfirmingAppointment,
         appointmentConfirmationFailure,

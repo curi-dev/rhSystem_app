@@ -43,7 +43,8 @@ export const SideMenu = styled.menu`
 
 export const Footer = styled.footer`
     width: 100%;
-    max-width: 872px;
+    
+    
     height: 84px;
 
     display: flex;

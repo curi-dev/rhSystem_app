@@ -20,3 +20,9 @@ export enum SlotTimeValue {
     SLOT_11 = 11,
     SLOT_12 = 12,
 }
+
+export interface Slot {
+    Id: string
+    Value: string
+    Label: string
+}

@@ -1,12 +1,15 @@
 import LoadingBars from 'react-loading-icons'
 
+import { Overlay } from './styles'
+
 const Loading = () => {
 
 
     return (
-        <div>
-            <LoadingBars.ThreeDots color='#000000' stroke="#2868ad"  />
-        </div>
+        <Overlay>
+            <LoadingBars.SpinningCircles color='#fff' />    
+            {/* <LoadingBars.ThreeDots color='#000000' stroke="#2868ad"  /> */}
+        </Overlay>
     )
 }
 

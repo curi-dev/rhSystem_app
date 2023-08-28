@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 
 export const StyledContainer = styled.div`
@@ -47,3 +47,21 @@ export const StyledFooter = styled.footer`
     padding: 24px;
 `
 
+export const EnterKey = styled.div`
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center; justify-content: center;
+
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(110%);
+
+    cursor: pointer;
+    z-index: 1000;
+`
