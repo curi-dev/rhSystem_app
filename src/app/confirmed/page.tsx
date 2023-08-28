@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { AppointmentDatetimeDetails, Button, Loading } from '@/components'
 import { StyledContainer, StyledFooter } from './styles'
-import { Description } from '../form/components/PersonalData/styles'
+import { Description } from '../form/[step]/components/PersonalData/styles'
 import { useAppointments } from '@/hooks/useAppointments'
 
 import { AiFillCheckCircle } from 'react-icons/ai'

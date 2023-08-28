@@ -8,6 +8,7 @@ import { useFormContext } from 'react-hook-form'
 import { StyledContainer, StyledInput, StyledInputWrapper, HelperText } from './styles'
 
 import { AiOutlineUpload } from 'react-icons/ai'
+import { useCandidate } from '@/hooks/useCandidate'
 
 
 interface InputWrapperProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -25,7 +26,10 @@ const Input: React.FC<InputWrapperProps> = ({
     needsUpdateOnBlur = null, 
     registerOptions = { required: true }, ...props }) => {
 
-    const { register, formState: { errors }, trigger } = useFormContext()
+    const { register, formState: { errors }, trigger, watch } = useFormContext()
+    const { updateCandidate } = useCandidate()
+
+    const fieldValue = watch(field)
     
     const [isFocus, setIsFocus] = useState(false)
 
@@ -68,6 +72,8 @@ const Input: React.FC<InputWrapperProps> = ({
                     
                     //value={self}
                     onBlur={() => {
+                        let capitalizedField = field.replace(field[0], field[0].toUpperCase())
+                        updateCandidate(capitalizedField, fieldValue)
                         trigger(field)
                         setIsFocus(false)
                     }} 
@@ -96,8 +102,11 @@ const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, m
     const [maskValue, setValueMask] = useState("")
     const [isFocus, setIsFocus] = useState(false)
 
-    const { register, trigger, formState: { errors }, setValue } = useFormContext()
+    const { updateCandidate } = useCandidate()
+    const { register, trigger, formState: { errors }, setValue, watch } = useFormContext()
     console.log("errors: ", errors)
+
+    const fieldValue = watch(field)
 
     useEffect(() => {
         register(field, registerOptions)
@@ -137,6 +146,9 @@ const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, m
              <StyledInputWrapper $isFocus={isFocus} >
                  <StyledInput
                      onBlur={() => {
+                        let capitalizedField = field.replace(field[0], field[0].toUpperCase())
+                        updateCandidate(capitalizedField, fieldValue)
+                        
                          trigger(field)
                          setIsFocus(false)
                      }} 

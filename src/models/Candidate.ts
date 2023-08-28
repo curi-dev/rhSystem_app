@@ -1,6 +1,6 @@
 
 export interface ICandidate {
-    Id: string
+    Id?: string 
     Name: string
     Email: string
     Phone: string

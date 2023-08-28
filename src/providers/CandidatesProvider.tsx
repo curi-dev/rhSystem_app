@@ -3,7 +3,7 @@
 import { createContext, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { GenerateAccessKeyService, ValidateAccessKeyService } from '@/api/services'
+import { CreateAccessKeyService, ValidateAccessKeyService, CreateCandidateService } from '@/api/services'
 import { ICandidate } from '@/models/Candidate'
 
 
@@ -11,7 +11,7 @@ import { ICandidate } from '@/models/Candidate'
 interface CandidatesProviderInterface {
     generateAccessKey: (email: string) => Promise<any> 
     iseGeneratingAccessKey: boolean
-    candidate: ICandidate | null
+    candidate: ICandidate 
     keyGenerationSuccess: boolean
     keyGenerationFailure: boolean
     validateAccessKey: (key: string) => void
@@ -20,6 +20,11 @@ interface CandidatesProviderInterface {
     keyValidationFailure: boolean
     validateKeyErrorMessage: string | null
     RESET: () => void 
+    updateCandidate: (field: string, value: string) => void
+    createCandidate: (candidate: ICandidate) => Promise<boolean>
+    isCreatingCandidate: boolean
+    candidateCreationSuccess: boolean
+    candidateCreationFailure: boolean
 }
 
 // APLICAR USEREDUCER
@@ -37,24 +42,58 @@ const CandidatesProvider = ({ children }: any) => {
     const [isValidatingAccessKey, setIsValidatingAccessKey] = useState(false)
     const [keyValidationSuccess, setKeyValidationSuccess] = useState(false)
     const [keyValidationFailure, setkeyValidationFailure] = useState(false)
-    const [candidate, setCandidate] = useState<ICandidate | null>(null)
+    const [candidate, setCandidate] = useState<ICandidate>({} as ICandidate)
     const [validateKeyErrorMessage, setValidateKeyErrorMessage] = useState<string | null>(null)
 
+    const [isCreatingCandidate, setIsCreatingCandidate] = useState(false)
+    const [candidateCreationSuccess, setCandidateCreationSuccess] = useState(false)
+    const [candidateCreationFailure, setCandidateCreationFailure] = useState(false)
+
     console.log("candidate: ", candidate)
+
+    const updateCandidate = (field: string, value: string) => {
+        // @ts-ignore
+        setCandidate({ [field]: value, ...candidate })
+    }
     
     const RESET = () => {
-        setCandidate(null)
+        setCandidate({} as ICandidate)
         setKeyGenerationSuccess(false)
         setkeyGenerationFailure(false)
         setKeyValidationSuccess(false)
         setkeyValidationFailure(false)
     }
 
+    const createCandidate = async (candidate: ICandidate): Promise<boolean> => {
+
+        setIsCreatingCandidate(true)
+      
+        const response =  await CreateCandidateService(candidate)
+
+        if (response.error) {
+            console.error("e [create function]: ", response)
+
+            //setValidateKeyErrorMessage(response.message)
+            setCandidateCreationFailure(true)
+            setCandidateCreationSuccess(false)
+        } else {
+            console.log("candidate created! [context]", response)
+            setCandidate({ Id: response.Id, ...candidate })
+
+            setCandidateCreationSuccess(true)
+            setCandidateCreationFailure(false)
+        }
+
+        setIsCreatingCandidate(false)
+
+        return candidateCreationSuccess
+    }
+
     const generateAccessKey = async (email: string) => {
 
         setIsGeneratingAccessKey(true)
         setTimeout(() => {
-            GenerateAccessKeyService(email)
+            CreateAccessKeyService(email)
             .then(r => {
                 console.log("key generated! Candidate:", r)
 
@@ -64,8 +103,6 @@ const CandidatesProvider = ({ children }: any) => {
                 if (r) {
                     setCandidate(r)
                 } 
-                
-                // push("/form/1")
             })
             .catch(e => {
                 console.error("e: ", e)
@@ -83,8 +120,8 @@ const CandidatesProvider = ({ children }: any) => {
 
         setIsValidatingAccessKey(true)
         setTimeout(async () => {
-            if (candidate) {
-                const response =  await ValidateAccessKeyService(key, candidate?.Id)
+            if (!!(Object.values(candidate).length)) {
+                const response =  await ValidateAccessKeyService(key, candidate?.Id as string)
 
                 if (response.error) {
                     console.error("e [validate function]: ", response)
@@ -105,7 +142,6 @@ const CandidatesProvider = ({ children }: any) => {
             }
             
         }, 3000)
-
     }
 
 
@@ -122,7 +158,12 @@ const CandidatesProvider = ({ children }: any) => {
             keyValidationFailure,
             validateAccessKey,
             validateKeyErrorMessage,
-            RESET
+            RESET,
+            updateCandidate,
+            createCandidate,
+            isCreatingCandidate,
+            candidateCreationSuccess,
+            candidateCreationFailure,
         }}>
 
             {children}

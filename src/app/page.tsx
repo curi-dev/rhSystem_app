@@ -34,7 +34,8 @@ export default function Home() {
     generateAccessKey, 
     iseGeneratingAccessKey, 
     candidate, 
-    keyGenerationSuccess, 
+    keyGenerationSuccess,
+    keyGenerationFailure, 
     validateAccessKey, 
     isValidatingAccessKey } = useCandidate()
 
@@ -46,8 +47,6 @@ export default function Home() {
 
   // adicionar verificação com regex 
   const [email, setEmail] = useState("")
-
-  console.log("email: ", email)
 
   const handleGenerateAccessKey = () => {
     if (email.trim().length < 1) {
@@ -66,14 +65,19 @@ export default function Home() {
   
   useEffect(() => {
     if (email.trim().length > 0) {
-      if (candidate) {
+
+      let candidateExists = !!(Object.values(candidate).length)
+
+      if (candidateExists) {
         setShowKeyField(true)
+
       } else {
-        console.log("não acaba nunca")
+
         push("/form/1")
+        
       }
     }
-  }, [candidate])
+  }, [keyGenerationSuccess, keyGenerationFailure])
 
   
   const handleOnChange = (e: any) => {

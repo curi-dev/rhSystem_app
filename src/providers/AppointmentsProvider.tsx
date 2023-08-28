@@ -1,7 +1,7 @@
 "use client"
-
+import { useRouter } from 'next/navigation'
 import { createContext, useState } from 'react'
-import { ConfirmAppointmentService, SendNewAppointment } from '@/api/services'
+import { ConfirmAppointmentService, CreateAppointmentService } from '@/api/services'
 import { IAppointment } from '@/models/Appointment'
 
 
@@ -13,7 +13,7 @@ interface AppointmentsContextInterface {
     sendAppointmentSuccess: boolean
     sendAppointmentFailure: boolean
     sendingAppointment: boolean
-    sendNewAppointment: (appointment: IAppointment) => void
+    createAppointment: (appointment: IAppointment) => void
 }
 
 const AppointmentsContext = createContext<AppointmentsContextInterface>({} as AppointmentsContextInterface)
@@ -29,23 +29,28 @@ const AppointmentsProvider = ({ children }: any) => {
     const [sendAppointmentSuccess, setsendAppointmentSuccess] = useState(false)
     const [sendAppointmentFailure, setsendAppointmentFailure] = useState(false)
     
+    const router = useRouter()
 
     // appointments
     //const [appointments, setAppointments] = useState([])
 
-    const sendNewAppointment = async (appointment: IAppointment) => {
+    const createAppointment = async (appointment: IAppointment) => {
     
         setIsSendingAppointment(true)
         setTimeout(() => {
 
-            SendNewAppointment(appointment)
+            CreateAppointmentService(appointment)
             .then(r => {
                 console.log("appointment sent!", r)
+
                 setsendAppointmentSuccess(true)
                 setsendAppointmentFailure(false)
+
+                router.push("/")
             })
             .catch(e => {
                 console.error("e: ", e)
+
                 setsendAppointmentFailure(true)
                 setsendAppointmentSuccess(false)
             })
@@ -92,7 +97,7 @@ const AppointmentsProvider = ({ children }: any) => {
             sendAppointmentFailure,
             sendAppointmentSuccess,
             sendingAppointment,
-            sendNewAppointment
+            createAppointment
         }}>
 
             {children}

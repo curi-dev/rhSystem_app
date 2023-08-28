@@ -1,7 +1,7 @@
 import api from "..";
 
 
-export async function SendNewAppointment(appointment: any) {
+export async function CreateAppointmentService(appointment: any) {
 
     console.log("appointment: ", appointment)
 

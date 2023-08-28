@@ -11,7 +11,7 @@ import { Slot } from './components/Calendar/Calendar'
 import { ConfirmationModal, IConfirmationData } from './components/ConfirmationModal/ConfirmationModal'
 import { Description } from './components/PersonalData/styles'
 
-import { Button, Header } from '@/components'
+import { Button, Header, Loading } from '@/components'
 import { AppointmentDatetimeDetails } from '@/components/AppointmentDatetimeDetails/AppointmentDatetimeDetails'
 
 import { useSlots } from '@/hooks/useSlots'
@@ -23,15 +23,15 @@ import { StyledContainer, Footer, SideMenu, Content } from './styles'
 import { BsFillStopwatchFill } from 'react-icons/bs'
 
 import Logo from '../../../../public/wa_group.jpg'
+import { useCandidate } from '@/hooks/useCandidate'
 
-// import { IAppointment } from '../../../models/Appointment'
-// import { useAppointments } from '@/hooks/useAppointments'
 
 
 const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) => {
     
     const methods = useForm({ mode: 'onBlur',  })
     const { formState: { errors }, getValues } = methods
+    const { createCandidate, candidateCreationFailure, candidateCreationSuccess, isCreatingCandidate } = useCandidate()
     
     const { fetchAvailableSlots, slots } = useSlots()
     
@@ -56,17 +56,17 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     }
 
     const handleOnProgress = (num: number) => {
-        let validStep = step as number
+        let validStep = step 
 
         if (num < 0) {
-            setStep(validStep + (num))       
+            setStep(Number(validStep) + (num))       
             return 
         }
 
-        let fieldFilled = steps[validStep]['validate']()
+        let fieldFilled = steps[Number(validStep)]['validate']()
 
         if (fieldFilled) {
-            steps[validStep]['next']()
+            steps[Number(validStep)]['next']()
         }
     }
 
@@ -88,8 +88,21 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const steps: any = {
         1: {
             'component': <PersonalData />,
-            next: () => {
-                setStep((step as number) +1)
+            next: async () => {
+                console.log("step: ", step)
+
+                const { name, email, phone } = getValues()
+
+                createCandidate({ Email: email, Phone: phone, Name: name })
+                .then(success => {
+                    if (success) {
+                        setStep(Number(step) +1)
+                    }
+                })
+                .catch(e => {
+                    console.error(e)
+                    // toast
+                })
             },
             validate: () => {
                 //let fields_to_validate = ["name", "email", "phone"]
@@ -132,32 +145,12 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const displayBackBtn = step === 0 && "hidden" 
 
 
-    // const onSubmit = (data: any) => {
-        
-    //     console.log("data being send: ", data)
-
-    //     if (!selectedDay || !slot) {
-    //         return 
-    //     }
-
-    //     const candidateId = sessionStorage.getItem("candidate")
-
-    //     const newAppointment = {
-    //         id: candidateId || "",
-    //         email: data.email,
-    //         phone: data.phone || "",
-    //         splitted_date: selectedDay,
-    //         slot,
-    //     } as IAppointment
-
-    //     sendNewAppointment(newAppointment)
-    // };
-
-    //const onSubmitErr = (err: any) => console.log("Submit error: ", err)
-
 
     return (
         <>
+        {
+            isCreatingCandidate && <Loading />
+        }
         <StyledContainer>
             <SideMenu >
                 <div 
@@ -168,7 +161,6 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                         left: 0,
                         top: 0,
                         marginBottom: 32, 
-                        //border: '2px solid #c1131e' 
                     }}>
                     <Image 
                         src={Logo} 

@@ -10,6 +10,11 @@ const useCandidate = () => {
     }
 
     const { 
+        createCandidate,
+        isCreatingCandidate,
+        candidateCreationSuccess,
+        candidateCreationFailure,
+        updateCandidate,
         RESET,
         validateKeyErrorMessage,
         isValidatingAccessKey,
@@ -23,6 +28,11 @@ const useCandidate = () => {
         keyGenerationSuccess } = context
 
     return {
+        createCandidate,
+        isCreatingCandidate,
+        candidateCreationSuccess,
+        candidateCreationFailure,
+        updateCandidate,
         RESET,
         validateKeyErrorMessage,
         isValidatingAccessKey,

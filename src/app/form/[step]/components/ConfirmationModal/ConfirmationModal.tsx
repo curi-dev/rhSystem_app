@@ -2,7 +2,7 @@
 import Modal from 'react-modal'
 import { useFormContext } from 'react-hook-form';
 
-import { Button } from '@/components';
+import { Button, Loading } from '@/components';
 
 import { IAppointment } from '@/models/Appointment';
 
@@ -13,6 +13,7 @@ import { DayValue } from 'react-modern-calendar-datepicker';
 
 import { AiFillExclamationCircle } from 'react-icons/ai'
 import { Description, ReadOnlyContainer, StyledInputGroup, Content  } from './styles'
+import { useCandidate } from '@/hooks/useCandidate';
 
 
 const customStyles = {
@@ -45,8 +46,8 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseModal, confirmationData }) => {
 
-    const { getValues } = useFormContext()
-    const { sendNewAppointment } = useAppointments()
+    const { createAppointment, sendingAppointment, sendAppointmentFailure, sendAppointmentSuccess } = useAppointments()
+    const { candidate } = useCandidate()
 
     function closeModal() {
         onCloseModal()
@@ -60,24 +61,24 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
 
     const handleOnClick = () => {
 
-        const values = getValues()
+        console.log("candidate: ", candidate)
         
-        if (!selectedDay || !slot) {
+        if (!selectedDay || !slot || !candidate?.Email || !candidate.Name || !candidate.Phone) {
             return 
         }
 
-        const candidateId = sessionStorage.getItem("candidate")
+        //const candidateId = sessionStorage.getItem("candidate")
 
         const newAppointment = {
-            id: candidateId || "",
-            email: values.email || "",
-            phone: values.phone || "",
+            id: candidate.Id,
+            email: candidate.Email,
+            phone: candidate.Phone,
             splitted_date: selectedDay,
             slot: Number(slot.Value),
         } as IAppointment
 
 
-        sendNewAppointment(newAppointment)
+        createAppointment(newAppointment)
     }
 
 
@@ -90,6 +91,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
             ariaHideApp={false}
         >
             <Content >
+            {
+                sendingAppointment && <Loading overlayOpacity={0.25} />
+            }
+
+                <>
                 <div>
                     <div style={{ display: 'flex', alignItems: 'flex-start', border: '0.5px solid #e0e0e0', padding: 12 }}>
                         <div style={{ marginRight: 4, height: '100%', display: 'flex', alignItems: 'center' }}>
@@ -118,6 +124,9 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                     <Button text={'Agendar'} type='submit' onClick={handleOnClick} />         
                 </div>
+                </>
+              
+            
             </Content>
         </Modal>            
         </>

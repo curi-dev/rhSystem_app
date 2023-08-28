@@ -1,7 +1,7 @@
 import api from "..";
 
 
-export async function GenerateAccessKeyService(email: string) {
+export async function CreateAccessKeyService(email: string) {
 
     try {
         const response = await api.get("/candidates/access-key/create", { params: { email } })
@@ -10,6 +10,6 @@ export async function GenerateAccessKeyService(email: string) {
             return response.data
         } 
     } catch (error) {
-        console.log("err: ", error)
+        console.log("catch [CreateAccessKeyService]: ", error)
     }
 }

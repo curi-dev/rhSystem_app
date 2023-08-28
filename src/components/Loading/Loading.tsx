@@ -2,11 +2,11 @@ import LoadingBars from 'react-loading-icons'
 
 import { Overlay } from './styles'
 
-const Loading = () => {
+const Loading: React.FC<{ overlayOpacity?: number }> = ({ overlayOpacity }) => {
 
 
     return (
-        <Overlay>
+        <Overlay $opacity={overlayOpacity}>
             <LoadingBars.SpinningCircles color='#fff' />    
             {/* <LoadingBars.ThreeDots color='#000000' stroke="#2868ad"  /> */}
         </Overlay>

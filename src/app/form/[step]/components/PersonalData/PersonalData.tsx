@@ -1,31 +1,14 @@
-import { useEffect } from 'react'
-import { useFormContext } from 'react-hook-form'
-
 import { Input, InputMaskComponent } from '@/components'
 import { Title } from '@/components/Title'
 
 import { FaUserEdit } from 'react-icons/fa'
 
 import { Description } from './styles'
-import { useCandidate } from '@/hooks/useCandidate'
-
 
 
 const PersonalData: React.FC<{  }> = () => {
 
-    // const { candidate } = useCandidate()
-    const { setValue } = useFormContext()
-
-    // useEffect(() => {
-    //     // if (candidate) {
-    //     //     setValue("name", candidate?.Name)
-    //     //     setValue("email", candidate?.Email)
-    //     //     setValue("phone", candidate?.Phone)
-    //     // }
-
-    // }, [candidate])
-
-    
+ 
     return (
         <>
             <Description>

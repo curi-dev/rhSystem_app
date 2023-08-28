@@ -3,7 +3,7 @@
 import { createContext, useState } from 'react'
 import { fetchAllSlotsService, GetAvaiableSlotService } from '@/api/services'
 import { DayValue } from 'react-modern-calendar-datepicker';
-import { Slot } from '@/app/form/components/Calendar/interfaces';
+import { Slot } from '@/app/form/[step]/components/Calendar/interfaces';
 
 
 interface SlotsContextInterface {
@@ -17,15 +17,10 @@ const SlotsContext = createContext<SlotsContextInterface>({} as SlotsContextInte
 
 const SlotsProvider = ({ children }: any) => {
 
-
     const [isLoadingSlots, setIsLoadingSlots] = useState(false)
     const [isLoadingAvaiableSlots, setIsLoadingAvaiableSlots] = useState(false)
     const [slots, setSlots] = useState([])
     const [avaiableSlots, setAvaiableSlots] = useState([])
-    
-    console.log("slots: ", slots)
-    
-    console.log("avaiableSlots: ", avaiableSlots)
 
     const fetchSlots = async () => {
         setIsLoadingSlots(true)
@@ -45,7 +40,6 @@ const SlotsProvider = ({ children }: any) => {
         setIsLoadingAvaiableSlots(true)
         GetAvaiableSlotService(splittedDate)
         .then(r => {
-            console.log("fetching available slots: R => ", r)
             setAvaiableSlots(r) 
         })
         .catch(e => {

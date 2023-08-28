@@ -10,19 +10,20 @@ const useAppointments = () => {
     }
 
     const { 
+        createAppointment,
         sendAppointmentFailure,
         sendAppointmentSuccess,
-        sendNewAppointment,
         sendingAppointment,
         confirmAppointment, 
         isConfirmingAppointment,
         appointmentConfirmationFailure, 
         appointmentConfirmationSuccess } = context
 
+        
     return {
         sendAppointmentFailure,
         sendAppointmentSuccess,
-        sendNewAppointment,
+        createAppointment,
         sendingAppointment,
         confirmAppointment,
         isConfirmingAppointment,
