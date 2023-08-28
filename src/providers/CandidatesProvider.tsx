@@ -81,7 +81,7 @@ const CandidatesProvider = ({ children }: any) => {
             return false
         } else {
             console.log("candidate created! [context]", response)
-            setCandidate({ Id: response.Id, ...candidate })
+            setCandidate( { Id: response.Id, ...candidate } )
 
             setCandidateCreationSuccess(true)
             setCandidateCreationFailure(false)

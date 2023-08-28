@@ -2,6 +2,7 @@
 import { DayValue } from 'react-modern-calendar-datepicker'
 import { StyledContainer } from './styles'
 import { Slot, SlotTimeValue } from '@/app/form/components/Calendar/interfaces'
+import { useSlots } from '@/hooks/useSlots'
 
 
 
@@ -29,6 +30,10 @@ interface AppointmentDatetimeDetailsProps {
 
 const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({ selectedDay, currStep, slot }) => {
 
+    
+    console.log("slot inside datetime details: ", slot)
+
+    
 
     return (
         <StyledContainer>
@@ -47,7 +52,7 @@ const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({
                         selectedDay ? (
                             // @ts-ignore
                             `${selectedDay.day}.${months[selectedDay.month]}.${selectedDay.year}`
-                            ) : (
+                            ) : currStep && (
                             currStep === 0 ? "Próxima Etapa" : "Por favor Selecione"
                         )
                     }
@@ -66,7 +71,7 @@ const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({
             <div>
                 <span>
                 {
-                    slot?.Label ? slot.Label : (
+                    slot?.Label ? slot.Label : currStep && (
                         currStep === 0 ? "Próxima Etapa" : "Por favor Selecione"
                     )
                 }
