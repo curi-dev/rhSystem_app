@@ -1,3 +1,6 @@
+'use client'
+
+
 import LoadingBars from 'react-loading-icons'
 
 import { Overlay } from './styles'

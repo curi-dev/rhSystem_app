@@ -16,6 +16,8 @@ export const StyledContainer = styled.div`
     background-color: #fff;
 
     position: relative;
+
+    box-shadow: 0 1em 3em rgba(156, 136, 255,0.2);
 `
 
 export const StyledHeader = styled.div`
@@ -32,6 +34,7 @@ export const StyledHeader = styled.div`
         max-height: 100%;
         object-fit: cover;
     }
+
 
 `
 

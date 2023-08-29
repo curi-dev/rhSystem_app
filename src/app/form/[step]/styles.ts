@@ -13,6 +13,8 @@ export const StyledContainer = styled.div`
     margin: 0 auto;
 
     background-color: #fff;
+
+    box-shadow: 0 1em 3em rgba(156, 136, 255,0.2);
 `
 
 export const Content = styled.div`

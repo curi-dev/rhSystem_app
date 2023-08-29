@@ -26,8 +26,6 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
 
     const { slots, fetchSlots, isLoadingSlots, avaiableSlots = [] } = useSlots()
     
-    console.log("avaiableSlots: ", avaiableSlots)
-
     useEffect(() => {
         fetchSlots()
     }, [])

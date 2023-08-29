@@ -11,6 +11,7 @@ import CandidatesProvider from '@/providers/CandidatesProvider'
 import './globals.css'
 import 'react-toastify/dist/ReactToastify.css';
 import "@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css";
+import StyledComponentsRegistry from './registry';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -32,7 +33,9 @@ export default function RootLayout({
           <SlotsProvider>
             <CandidatesProvider>
             <AppointmentsProvider>
-                {children}
+                <StyledComponentsRegistry>
+                  {children}
+                </StyledComponentsRegistry>
                 <ToastContainer/>
             </AppointmentsProvider>
             </CandidatesProvider>

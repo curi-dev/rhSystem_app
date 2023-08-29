@@ -5,14 +5,15 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { AppointmentDatetimeDetails, Button, Loading } from '@/components'
 import { StyledContainer, StyledFooter } from './styles'
-import { Description } from '../form/[step]/components/PersonalData/styles'
 import { useAppointments } from '@/hooks/useAppointments'
 
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { BiSolidMessageAltError } from 'react-icons/bi'
 import { DayValue } from 'react-modern-calendar-datepicker'
-import { useSlots } from '@/hooks/useSlots'
 import { Slot as ISlot } from '../form/[step]/components/Calendar/interfaces'
+
+// import { useSlots } from '@/hooks/useSlots'
+// import { Description } from '../form/[step]/components/PersonalData/styles'
 
 
 export const slots_mock: ISlot[] = [
@@ -32,6 +33,7 @@ export default function Confirmed() {
     //const { slots, fetchSlots } = useSlots() 
 
     const { 
+        appointmentConfirmationFailure,
         confirmAppointment, 
         isConfirmingAppointment, 
         appointmentConfirmationSuccess } = useAppointments()
@@ -74,24 +76,29 @@ export default function Confirmed() {
     
 
     if (isConfirmingAppointment) {
-        return <Loading />
+        return <Loading overlayOpacity={0.35} />
     }
 
     return (
         <StyledContainer>
             <div>
             {
-                appointmentConfirmationSuccess ? 
-                    <AiFillCheckCircle color='#2868ad' size={55} /> :
-                        <BiSolidMessageAltError color='#c1131e' size={55} /> 
+                appointmentConfirmationSuccess &&
+                    <AiFillCheckCircle color='#2868ad' size={55} /> 
+                }
+            {
+                appointmentConfirmationFailure && 
+                    <BiSolidMessageAltError color='#c1131e' size={55} /> 
             }
             </div>
 
             <h2 style={{ color: '#000000', margin: 12 }} >
                 {
-                    appointmentConfirmationSuccess ?
-                        "Parabéns! Sua entrevista está confirmada!" :
-                            "Não foi possível validar o agendamento"
+                    appointmentConfirmationSuccess && "Parabéns! Sua entrevista está confirmada!" 
+                           
+                }
+                {
+                    appointmentConfirmationFailure && "Não foi possível validar o agendamento"
                 }
             </h2>
 
