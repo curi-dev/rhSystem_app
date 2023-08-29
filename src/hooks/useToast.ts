@@ -16,7 +16,7 @@ const useToast = () => {
     }
 
     const warning =  (message: string, durationMs: number) => {
-        toast.success(message, {
+        toast.warning(message, {
             position: "top-right",
             autoClose: durationMs,
             hideProgressBar: false,

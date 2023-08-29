@@ -23,8 +23,9 @@ const AppointmentsContext = createContext<AppointmentsContextInterface>({} as Ap
 
 const AppointmentsProvider = ({ children }: any) => {
 
-    const { success } = useToast()
+    const router = useRouter()
     const { RESET: ResetCandidateValues } = useCandidate()
+    const { success, warning } = useToast()
 
     // loading states
     const [isConfirmingAppointment, setIsConfirmingAppointment] = useState(false)
@@ -34,39 +35,42 @@ const AppointmentsProvider = ({ children }: any) => {
     const [sendAppointmentSuccess, setsendAppointmentSuccess] = useState(false)
     const [sendAppointmentFailure, setsendAppointmentFailure] = useState(false)
     
-    const router = useRouter()
-
-    // appointments
-    //const [appointments, setAppointments] = useState([])
 
     const createAppointment = async (appointment: IAppointment) => {
-    
+        
         setIsSendingAppointment(true)
-        setTimeout(() => {
+        const response = await CreateAppointmentService(appointment)
 
-            CreateAppointmentService(appointment)
-            .then(r => {
-                console.log("appointment sent!", r)
+        if (response.error) {
+            console.error("e: ", response.message)
 
-                setsendAppointmentSuccess(true)
-                setsendAppointmentFailure(false)
+            setsendAppointmentFailure(true)
+            setsendAppointmentSuccess(false)
 
-                ResetCandidateValues()
-                const message = "Seu agendamento foi criado com sucesso. Confirme pelo link de validação enviado para o email cadastrado"
-                success(message, 5000)
-                router.push("/")
-            })
-            .catch(e => {
-                console.error("e: ", e)
+            warning(response.message, 5000)
+        } else {
+            console.log("appointment sent!", response)
 
-                setsendAppointmentFailure(true)
-                setsendAppointmentSuccess(false)
-            })
-            .finally(() => {
-                setIsSendingAppointment(false)
-            })
-        }, 3000)
+            setsendAppointmentSuccess(true)
+            setsendAppointmentFailure(false)
 
+            ResetCandidateValues()
+            RESET()
+            const message = "Seu agendamento foi criado com sucesso. Confirme pelo link de validação enviado para o email cadastrado"
+            success(message, 5000)
+            router.push("/")
+        }
+        
+        setIsSendingAppointment(false)
+    }
+
+    const RESET = () => {
+        setIsConfirmingAppointment(false)
+        setAppointmentConfirmationSuccess(false)
+        setAppointmentConfirmationFailure(false)
+        setIsSendingAppointment(false)
+        setsendAppointmentSuccess(false)
+        setsendAppointmentFailure(false)
     }
 
 

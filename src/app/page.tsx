@@ -44,29 +44,9 @@ export default function Home() {
   const [isFocus, setIsFocus] = useState(false)
   const [showKeyField, setShowKeyField] = useState(false)
   const [key, setKey] = useState("")
-
-  // adicionar verificação com regex 
-  const [email, setEmail] = useState("")
-
-  const handleGenerateAccessKey = () => {
-    if (email.trim().length < 1) {
-      return
-    }
-
-    generateAccessKey(email)
-  }
-
-  const handleValidateAccessKey = () => {
-    if (key.length === 8) {
-      validateAccessKey(key)
-    }
-  }
-
-  useEffect(() => {
-    ResetValues()
-  }, [])
-
+  const [email, setEmail] = useState("") // adicionar verificação com regex 
   
+
   useEffect(() => {
     if (email.trim().length > 0) {
 
@@ -86,6 +66,23 @@ export default function Home() {
     }
   }, [keyGenerationSuccess, keyGenerationFailure])
 
+  useEffect(() => {
+    ResetValues()
+  }, [])
+
+  const handleGenerateAccessKey = () => {
+    if (email.trim().length < 1) {
+      return
+    }
+
+    generateAccessKey(email)
+  }
+
+  const handleValidateAccessKey = () => {
+    if (key.length === 8) {
+      validateAccessKey(key)
+    }
+  }
   
   const handleOnChange = (e: any) => {
     setKey(e.target.value)

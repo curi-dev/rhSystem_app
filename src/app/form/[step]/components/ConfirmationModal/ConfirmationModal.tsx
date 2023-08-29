@@ -40,11 +40,12 @@ export interface IConfirmationData {
 interface ConfirmationModalProps {
     isOpen: boolean
     onCloseModal: () => void
-    confirmationData: () => IConfirmationData
+    selectedDay: DayValue
+    slot: ISlot | undefined
 }
 
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseModal, confirmationData }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseModal, selectedDay, slot }) => {
 
     const { createAppointment, sendingAppointment } = useAppointments()
     const { candidate } = useCandidate()
@@ -56,8 +57,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
     function getDate() {
         return `${selectedDay?.day}/${selectedDay?.month}/${selectedDay?.year}`
     }
-
-    const { email = "", name = "", phone = "", selectedDay, slot } = confirmationData()
 
     const handleOnClick = () => {
 
@@ -111,22 +110,20 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
                     <h3 style={{ margin: 20, color: '#2868ad' }}>Confirme seus dados</h3>
 
                     <StyledInputGroup>
-                        <ReadOnlyField field={'Nome'} value={name} />
-                        <ReadOnlyField field={'Email'} value={email} />
+                        <ReadOnlyField field={'Nome'} value={candidate.Name} />
+                        <ReadOnlyField field={'Email'} value={candidate.Email} />
                     </StyledInputGroup>
                     <StyledInputGroup>
                         <ReadOnlyField field={'Data'} value={getDate()} />
                         <ReadOnlyField field={'Hora'} value={(slot?.Label as string)} />
                     </StyledInputGroup>
-                    <ReadOnlyField field={'Telefone'} value={phone} />
+                    <ReadOnlyField field={'Telefone'} value={candidate.Phone} />
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                     <Button text={'Agendar'} type='submit' onClick={handleOnClick} />         
                 </div>
-                </>
-              
-            
+                </>           
             </Content>
         </Modal>            
         </>
@@ -134,7 +131,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
 }
 
 
-const ReadOnlyField: React.FC<{ field: string, value: string }> = ({ field, value }) => {
+export const ReadOnlyField: React.FC<{ field: string, value: string }> = ({ field, value }) => {
 
 
     return (

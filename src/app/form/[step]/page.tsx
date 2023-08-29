@@ -9,7 +9,7 @@ import { DayValue } from 'react-modern-calendar-datepicker'
 
 import { CalendarComponent, PersonalData } from './components'
 import { Slot } from './components/Calendar/Calendar'
-import { ConfirmationModal, IConfirmationData } from './components/ConfirmationModal/ConfirmationModal'
+import { ConfirmationModal } from './components/ConfirmationModal/ConfirmationModal'
 import { Description } from './components/PersonalData/styles'
 
 import { Button, Header, Loading } from '@/components'
@@ -67,7 +67,6 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                 return
             }
 
-            console.log("validStep: ", validStep)
             setStep(validStep -1)    
             return 
         }
@@ -90,13 +89,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         return currSelectedSlot
     }, [slot])
     
-    function GetConfirmationData(): IConfirmationData {
-        const { name, email, phone } = getValues()
-        
-        return { email, name, phone, selectedDay, slot: memoizedSelectedSlot}
-    }
-
-
+    
     const steps: any = {
         1: {
             'component': <PersonalData />,
@@ -158,10 +151,8 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     }
     
      
-    const slotDetails = memoizedSelectedSlot
+    // const slotDetails = memoizedSelectedSlot
     const displayBackBtn = step === 0 && "hidden" 
-
-
 
     return (
         <>
@@ -213,7 +204,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                                 // slots={slots} 
                                 selectedDay={selectedDay} 
                                 currStep={step} 
-                                slot={slotDetails} 
+                                slot={memoizedSelectedSlot} 
                             />
                         </div>
                     )
@@ -233,7 +224,9 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                             onCloseModal={function (): void {
                                 setIsModalOpen(false)
                             }} 
-                            confirmationData={GetConfirmationData} 
+                            selectedDay={selectedDay}
+                            slot={memoizedSelectedSlot}
+                            //confirmationData={GetConfirmationData} 
                         /> 
                     }
                     </FormProvider>
