@@ -6,14 +6,13 @@ export const StyledContainer = styled.div`
     height: 100%;
     
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-
+  
     max-width: 872px;
 
     margin: 0 auto;
-    padding: 16px;
-
+    
     background-color: #fff;
 
     position: relative;
@@ -21,7 +20,10 @@ export const StyledContainer = styled.div`
 
 export const StyledHeader = styled.div`
 
-    position: absolute; top: 0; left: 0; width: 100%; height: 300px; 
+    width: 100%; 
+    height: 334px; 
+    position: relative;
+    margin-bottom: 32px;
     
     & img {
         width: 100%;

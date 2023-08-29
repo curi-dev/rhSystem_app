@@ -1,12 +1,28 @@
+import { useEffect } from 'react'
 import { Input, InputMaskComponent } from '@/components'
 import { Title } from '@/components/Title'
 
 import { FaUserEdit } from 'react-icons/fa'
 
 import { Description } from './styles'
+import { useFormContext } from 'react-hook-form'
+import { useCandidate } from '@/hooks/useCandidate'
 
 
-const PersonalData: React.FC<{  }> = () => {
+const PersonalData: React.FC = () => {
+
+    const { setValue } = useFormContext()
+    const { candidate = { Email: "", Name: "", Phone: "" } } = useCandidate()
+    
+    console.log("candidate: [PERSONAL DATA]", candidate)
+
+    useEffect(() => {
+        //if (!!Object.values(candidate).length) {
+        setValue("email", candidate?.Email)
+        setValue("name", candidate?.Name)
+        setValue("phone", candidate?.Phone)
+        //}
+    }, [])
 
  
     return (
@@ -26,7 +42,7 @@ const PersonalData: React.FC<{  }> = () => {
                 type='text' 
                 registerOptions={{ 
                         required: "nome com 2 caracteres é obrigatório", 
-                        minLength: { value: 2, message: "nome com 2 caracteres é obrigatório"} 
+                        minLength: { value: 1, message: "nome com 2 caracteres é obrigatório"} 
                     }} 
                 />
             <Input 

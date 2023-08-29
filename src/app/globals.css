@@ -43,18 +43,14 @@ a {
 
 .custom-calendar {
   /* flex: 1 !important; */
-  /* height: 450px !important; */
+  height: 347px !important; 
   margin-right: 12px !important;
   /* box-shadow: none !important; */
   /* background-color: #f8f9fc !important; */
-  background-color: #2868ad !important;
+  /* background-color: #2868ad !important; */
+  background-color: #5395c6 !important;
   color: #000000 !important;
   overflow: hidden !important;
-}
-
-input[type="file"] {
-  /* Ocultar o botão padrão */
-  /* display: none; */
 }
 
 /* Estilizar o botão de seleção de arquivo */

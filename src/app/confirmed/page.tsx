@@ -12,7 +12,7 @@ import { AiFillCheckCircle } from 'react-icons/ai'
 import { BiSolidMessageAltError } from 'react-icons/bi'
 import { DayValue } from 'react-modern-calendar-datepicker'
 import { useSlots } from '@/hooks/useSlots'
-import { Slot as ISlot, SlotTimeValue } from '../form/[step]/components/Calendar/interfaces'
+import { Slot as ISlot } from '../form/[step]/components/Calendar/interfaces'
 
 
 export const slots_mock: ISlot[] = [
@@ -34,7 +34,6 @@ export default function Confirmed() {
     const { 
         confirmAppointment, 
         isConfirmingAppointment, 
-        appointmentConfirmationFailure, 
         appointmentConfirmationSuccess } = useAppointments()
 
 
@@ -52,8 +51,6 @@ export default function Confirmed() {
         }
     }, [values])
 
-    console.log("slotInfo: ", slotInfo)
-    console.log("selectedDayInfo: ", selectedDayInfo)
 
     const getSlot = (): ISlot | undefined => {
         if ((slotInfo as number)) {
@@ -98,7 +95,7 @@ export default function Confirmed() {
                 }
             </h2>
 
-            <div style={{ textAlign: 'center' }}>
+            {/* <div style={{ textAlign: 'center' }}>
                 <Description>
                     {
                         appointmentConfirmationSuccess ? 
@@ -112,7 +109,7 @@ export default function Confirmed() {
                     }
                     
                 </Description>
-            </div>
+            </div> */}
             {
                 appointmentConfirmationSuccess && (
                     <div style={{ width: '50%', height: 162, marginTop: 16 }}>

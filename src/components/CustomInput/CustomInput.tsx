@@ -104,8 +104,7 @@ const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, m
 
     const { updateCandidate } = useCandidate()
     const { register, trigger, formState: { errors }, setValue, watch } = useFormContext()
-    console.log("errors: ", errors)
-
+   
     const fieldValue = watch(field)
 
     useEffect(() => {
@@ -131,8 +130,7 @@ const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, m
                 setValueMask(updatedValue)
 
                 const fieldValue = updatedValue.replace(/[-()]/g, "").replace(" ", "")
-                console.log("fieldValue: ", fieldValue)
-
+            
                 setValue(field, fieldValue)
             }} 
 

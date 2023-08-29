@@ -1,34 +1,20 @@
 import React, { useEffect, useMemo } from 'react';
-import { Calendar } from "react-modern-calendar-datepicker";
-import { utils } from 'react-modern-calendar-datepicker';
+//import { Calendar } from "react-modern-calendar-datepicker";
+import { Calendar } from "@amir04lm26/react-modern-calendar-date-picker";
+import { utils } from '@amir04lm26/react-modern-calendar-date-picker';
 
 import { Title } from '@/components';
-
-import { SlotTimeValue } from './interfaces';
 
 import { Description } from '../PersonalData/styles';
 import { TimeSlotContainer, SlotContainer } from './styles'
 
 import { BsFillCalendarCheckFill } from 'react-icons/bs'
 
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
+// import "react-modern-calendar-datepicker/lib/DatePicker.css";
 
 import { useSlots } from '@/hooks/useSlots';
 
 
-export const slots_mock = [
-    { id: "", value: SlotTimeValue.SLOT_1, label: "6:00 AM - 7:00 AM" },
-    { id: "", value: SlotTimeValue.SLOT_2, label: "7:00 AM - 8:00 AM" },
-    { id: "", value: SlotTimeValue.SLOT_3, label: "8:00 AM - 9:00 AM" },
-    { id: "", value: SlotTimeValue.SLOT_4, label: "9:00 AM - 10:00 AM" },
-    { id: "", value: SlotTimeValue.SLOT_5, label: "10:00 AM - 11:00 AM" },
-    { id: "", value: SlotTimeValue.SLOT_6, label: "11:00 AM - 12:00 PM" },
-    { id: "", value: SlotTimeValue.SLOT_8, label: "12:00 PM - 13:00 PM" },
-    { id: "", value: SlotTimeValue.SLOT_9, label: "13:00 AM - 14:00 PM" },
-    { id: "", value: SlotTimeValue.SLOT_10, label: "14:00 PM - 15:00 PM" },
-    { id: "", value: SlotTimeValue.SLOT_11, label: "15:00 PM - 16:00 PM" },
-    { id: "", value: SlotTimeValue.SLOT_12, label: "16:00 PM - 17:00 PM" }
-]
 
 interface CalendarProps {
     values: any

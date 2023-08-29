@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation'
 import { createContext, useState } from 'react'
 import { ConfirmAppointmentService, CreateAppointmentService } from '@/api/services'
 import { IAppointment } from '@/models/Appointment'
+import { useToast } from '@/hooks/useToast'
+import { useCandidate } from '@/hooks/useCandidate'
 
 
 interface AppointmentsContextInterface {
@@ -20,6 +22,9 @@ const AppointmentsContext = createContext<AppointmentsContextInterface>({} as Ap
 
 
 const AppointmentsProvider = ({ children }: any) => {
+
+    const { success } = useToast()
+    const { RESET: ResetCandidateValues } = useCandidate()
 
     // loading states
     const [isConfirmingAppointment, setIsConfirmingAppointment] = useState(false)
@@ -46,6 +51,9 @@ const AppointmentsProvider = ({ children }: any) => {
                 setsendAppointmentSuccess(true)
                 setsendAppointmentFailure(false)
 
+                ResetCandidateValues()
+                const message = "Seu agendamento foi criado com sucesso. Confirme pelo link de validação enviado para o email cadastrado"
+                success(message, 5000)
                 router.push("/")
             })
             .catch(e => {

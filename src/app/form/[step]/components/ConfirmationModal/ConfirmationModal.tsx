@@ -46,7 +46,7 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseModal, confirmationData }) => {
 
-    const { createAppointment, sendingAppointment, sendAppointmentFailure, sendAppointmentSuccess } = useAppointments()
+    const { createAppointment, sendingAppointment } = useAppointments()
     const { candidate } = useCandidate()
 
     function closeModal() {

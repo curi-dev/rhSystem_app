@@ -1,6 +1,5 @@
 export { Button } from './Button'
 export { Input, InputMaskComponent } from './CustomInput'
-export { InputWrapper } from './Input'
 export { Title } from './Title'
 export { Header } from './Header'
 export { AppointmentDatetimeDetails } from './AppointmentDatetimeDetails/AppointmentDatetimeDetails'

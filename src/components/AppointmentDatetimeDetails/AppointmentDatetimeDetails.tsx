@@ -31,9 +31,6 @@ interface AppointmentDatetimeDetailsProps {
 const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({ selectedDay, currStep, slot }) => {
 
     
-    console.log("slot inside datetime details: ", slot)
-
-    
 
     return (
         <StyledContainer>

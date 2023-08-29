@@ -35,21 +35,27 @@ const CandidatesProvider = ({ children }: any) => {
   
     const { push } = useRouter()
     
-    // loading states
-    const [iseGeneratingAccessKey, setIsGeneratingAccessKey] = useState(false)
-    const [keyGenerationSuccess, setKeyGenerationSuccess] = useState(false)
-    const [keyGenerationFailure, setkeyGenerationFailure] = useState(false)
-    const [isValidatingAccessKey, setIsValidatingAccessKey] = useState(false)
-    const [keyValidationSuccess, setKeyValidationSuccess] = useState(false)
-    const [keyValidationFailure, setkeyValidationFailure] = useState(false)
     const [candidate, setCandidate] = useState<ICandidate>({} as ICandidate)
+    console.log("Candidate: ", candidate)
+    
+    // loading states
+    const [isValidatingAccessKey, setIsValidatingAccessKey] = useState(false)
+    const [iseGeneratingAccessKey, setIsGeneratingAccessKey] = useState(false)
+    const [isCreatingCandidate, setIsCreatingCandidate] = useState(false)
+    
+    // success
+    const [keyGenerationSuccess, setKeyGenerationSuccess] = useState(false)
+    const [keyValidationSuccess, setKeyValidationSuccess] = useState(false)
+    const [candidateCreationSuccess, setCandidateCreationSuccess] = useState(false)
+    
+    // failures
+    const [keyGenerationFailure, setkeyGenerationFailure] = useState(false)
+    const [keyValidationFailure, setkeyValidationFailure] = useState(false)
+    const [candidateCreationFailure, setCandidateCreationFailure] = useState(false)
+    
+    // errors messages
     const [validateKeyErrorMessage, setValidateKeyErrorMessage] = useState<string | null>(null)
 
-    const [isCreatingCandidate, setIsCreatingCandidate] = useState(false)
-    const [candidateCreationSuccess, setCandidateCreationSuccess] = useState(false)
-    const [candidateCreationFailure, setCandidateCreationFailure] = useState(false)
-
-    console.log("candidate: ", candidate)
 
     const updateCandidate = (field: string, value: string) => {
         // @ts-ignore
@@ -87,6 +93,7 @@ const CandidatesProvider = ({ children }: any) => {
             setCandidateCreationFailure(false)
 
             setIsCreatingCandidate(false)
+            
             return true
         }
     }

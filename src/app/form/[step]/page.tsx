@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import { useForm, FormProvider } from 'react-hook-form'
 import { DayValue } from 'react-modern-calendar-datepicker'
@@ -22,8 +23,9 @@ import { StyledContainer, Footer, SideMenu, Content } from './styles'
 
 import { BsFillStopwatchFill } from 'react-icons/bs'
 
-import Logo from '../../../../public/wa_group.jpg'
 import { useCandidate } from '@/hooks/useCandidate'
+
+import Logo from '../../../../public/wa_group.jpg'
 
 
 
@@ -31,6 +33,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     
     const methods = useForm({ mode: 'onBlur',  })
     const { formState: { errors }, getValues } = methods
+    const { back } = useRouter()
 
     const { createCandidate, isCreatingCandidate } = useCandidate()
     
@@ -58,6 +61,13 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const handleOnProgress = (direction: 'back' | 'forward') => {
         const validStep = Number(step) 
         if (direction === 'back') {
+
+            if (step === 1) {
+                back()
+                return
+            }
+
+            console.log("validStep: ", validStep)
             setStep(validStep -1)    
             return 
         }
@@ -71,18 +81,19 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         }
     }
 
-    function getSlotDetails(): ISlot | undefined {
+    const memoizedSelectedSlot = useMemo(function getSlotDetails(): ISlot | undefined {
+        
         let currSelectedSlot = slots.find(s => Number(s.Value as string) == slot)
 
         console.log("currSelectedSlot: ", currSelectedSlot)
 
         return currSelectedSlot
-    }
+    }, [slot])
     
     function GetConfirmationData(): IConfirmationData {
         const { name, email, phone } = getValues()
         
-        return { email, name, phone, selectedDay, slot: getSlotDetails() }
+        return { email, name, phone, selectedDay, slot: memoizedSelectedSlot}
     }
 
 
@@ -95,7 +106,9 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
 
                 createCandidate({ Email: email, Phone: phone, Name: name })
                 .then(success => {
+
                     console.log("success: ", success)
+
                     if (success) {
                         setStep(Number(step) +1)
                     }
@@ -144,9 +157,8 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         }
     }
     
-    
-   
-    const slotDetails = getSlotDetails()
+     
+    const slotDetails = memoizedSelectedSlot
     const displayBackBtn = step === 0 && "hidden" 
 
 

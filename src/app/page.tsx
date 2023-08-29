@@ -12,9 +12,6 @@ import { Button, Loading } from '@/components'
 import { StyledFooter, StyledContainer, StyledHeader, EnterKey } from './styles'
 import { StyledContainer as InputContainer, HelperText, StyledInput, StyledInputWrapper } from '@/components/CustomInput/styles'
 
-
-import HeaderImage from './header-image.jpg'
-import Logo from '../../public/wa_group.jpg'
 import { useCandidate } from '@/hooks/useCandidate'
 import { Overlay } from '@/components/Loading/styles'
 import { TypewriterEffect } from './TypewriterEffect'
@@ -24,12 +21,15 @@ import { BsBoxArrowRight } from 'react-icons/bs'
 import { BiSolidErrorCircle } from 'react-icons/bi'
 
 
+import HeaderImage from '../../public/header-image.jpg'
+import Logo from '../../public/wa_group.jpg'
+
 
 export default function Home() {
   
   const { 
+    updateCandidate,
     RESET: ResetValues,
-    validateKeyErrorMessage,
     keyValidationFailure,
     generateAccessKey, 
     iseGeneratingAccessKey, 
@@ -62,18 +62,25 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    ResetValues()
+  }, [])
+
   
   useEffect(() => {
     if (email.trim().length > 0) {
 
       let candidateExists = !!(Object.values(candidate).length)
 
+      console.log("candidateExists: ", candidateExists)
+
       if (candidateExists) {
         setShowKeyField(true)
 
       } else {
-
-        push("/form/1")
+        setShowKeyField(false)
+        updateCandidate('Email', email)
+        push('/form/1')
         
       }
     }
@@ -84,8 +91,6 @@ export default function Home() {
     setKey(e.target.value)
   }
 
-  console.log("validateKeyErrorMessage: ", validateKeyErrorMessage)
-
   const handleCloseKeyAccessArea = () => {
     setShowKeyField(false)
     setKey("")
@@ -93,6 +98,8 @@ export default function Home() {
 
     ResetValues()
   }
+
+
 
   return (
     <>
@@ -103,7 +110,7 @@ export default function Home() {
     }
     {
       showKeyField && (
-      // true && (
+      //true && (
         <>
         <Overlay>
           <div style={{ position: 'absolute', right: 15, top: 15, cursor: 'pointer', zIndex: 1000 }} onClick={handleCloseKeyAccessArea}>
@@ -134,11 +141,6 @@ export default function Home() {
                 </EnterKey>
                 
               </div>
-              {/* {
-                keyValidationFailure && (
-                  <span style={{ alignSelf: 'flex-start', fontSize: 12, color: '#c1131e', fontWeight: 900 }}>{validateKeyErrorMessage}</span>
-                )
-              } */}
             </div>
         <input
           maxLength={8}
@@ -149,7 +151,7 @@ export default function Home() {
             height: '100%', 
             zIndex: 999, 
             backgroundColor: 'transparent',
-            color: 'transparent'
+            color: 'transparent',
           }} 
         />
         </Overlay>
@@ -159,7 +161,7 @@ export default function Home() {
     <StyledContainer>
       <StyledHeader>
         <Image src={HeaderImage} alt={'call-center'} fill />
-      </StyledHeader>
+      </StyledHeader> 
       <div style={{ width: 400, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <Image 
           src={Logo} 
@@ -171,7 +173,13 @@ export default function Home() {
               Email do candidato
           </label>
           <StyledInputWrapper $isFocus={isFocus} >
-              <StyledInput placeholder='  Digite seu email aqui' value={email} onChange={(ev) => setEmail(ev.target.value)} />
+              <StyledInput 
+                onBlur={() => setIsFocus(false)} 
+                onFocus={() => setIsFocus(true)} 
+                value={email} 
+                onChange={(ev) => setEmail(ev.target.value)} 
+                style={{ paddingLeft: 12 }}
+              />
           </StyledInputWrapper>
 
           <HelperText>
