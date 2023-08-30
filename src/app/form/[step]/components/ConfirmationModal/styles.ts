@@ -17,8 +17,6 @@ export const ReadOnlyContainer = styled.div`
         color: #2868ad;
         font-weight: 700;
     }
-
-    border:
 `
 
 export const SeparatorContainer = styled.div`

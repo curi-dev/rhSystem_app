@@ -8,7 +8,9 @@ export async function CreateAppointmentService(appointment: any) {
     try {
         const response = await api.post("/appointments/create", appointment)
 
-        if (response.status === 200) {
+        console.log("response [success]: ", response.data)
+
+        if (response.status === 201) {
             return response.data
         } 
         

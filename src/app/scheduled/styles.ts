@@ -23,6 +23,8 @@ export const AppointmentDetailsContainer = styled.div`
     border: 2px solid #2868ad;
     padding: 26px;
     margin-bottom: 16px;
+
+    position: relative;
 `
 
 
@@ -56,6 +58,20 @@ export const StyledInputGroup = styled.div`
     width: 100%;
     display: flex;
     column-gap: 12px;
+`
+
+export const AppointmentActionsWrapper = styled.div`
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+
+    display: flex; align-items: center;
+
+    
+    & svg {
+        cursor: pointer;
+        margin-left: 12px;
+    }
 `
 
 

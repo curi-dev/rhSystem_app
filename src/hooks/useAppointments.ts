@@ -10,6 +10,11 @@ const useAppointments = () => {
     }
 
     const { 
+        appointments,
+        appointmentFetchingFailure,
+        appointmentFetchingSSuccess,
+        getAppointments,
+        isFetchingAppointment,
         createAppointment,
         sendAppointmentFailure,
         sendAppointmentSuccess,
@@ -21,6 +26,11 @@ const useAppointments = () => {
 
         
     return {
+        appointments,
+        appointmentFetchingFailure,
+        appointmentFetchingSSuccess,
+        getAppointments,
+        isFetchingAppointment,
         sendAppointmentFailure,
         sendAppointmentSuccess,
         createAppointment,
