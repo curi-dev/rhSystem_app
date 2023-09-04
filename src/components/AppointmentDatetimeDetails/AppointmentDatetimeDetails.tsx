@@ -1,9 +1,7 @@
 
 import { DayValue } from 'react-modern-calendar-datepicker'
 import { StyledContainer } from './styles'
-import { Slot, SlotTimeValue } from '@/app/form/components/Calendar/interfaces'
-import { useSlots } from '@/hooks/useSlots'
-
+import { Slot } from '@/app/form/[step]/components/Calendar/interfaces'
 
 
 export const months = {
