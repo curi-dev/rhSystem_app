@@ -1,6 +1,5 @@
 // @ts-ignore
 import Modal from 'react-modal'
-import { useFormContext } from 'react-hook-form';
 
 import { Button, Loading } from '@/components';
 
