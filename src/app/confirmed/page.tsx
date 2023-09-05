@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
-import { AppointmentDatetimeDetails, Button, Loading } from '@/components'
-import { StyledContainer, StyledFooter } from './styles'
+import { AppointmentDatetimeDetails, Loading } from '@/components'
+import { StyledContainer, StyledFooter, Wrapper } from './styles'
 import { useAppointments } from '@/hooks/useAppointments'
 
 import { AiFillCheckCircle } from 'react-icons/ai'
@@ -68,52 +68,38 @@ export default function Confirmed() {
 
     return (
         <StyledContainer>
-            <div>
-            {
-                appointmentConfirmationSuccess &&
-                    <AiFillCheckCircle color='#2868ad' size={55} /> 
-                }
-            {
-                appointmentConfirmationFailure && 
-                    <BiSolidMessageAltError color='#c1131e' size={55} /> 
-            }
-            </div>
-
-            <h2 style={{ color: '#000000', margin: 12, fontSize: titleFontSize }} >
+            <Wrapper>
+                <div>
                 {
-                    appointmentConfirmationSuccess && "Parabéns! Sua entrevista está confirmada!"                        
-                }
-                {
-                    appointmentConfirmationFailure && "Não foi possível validar o agendamento"
-                }
-            </h2>
-
-            {/* <div style={{ textAlign: 'center' }}>
-                <Description>
-                    {
-                        appointmentConfirmationSuccess ? 
-                            <span>
-                                Você acabou de confirmar o seu agendamento. Faça o download do pdf de treinamento abaixo.
-                                Boa sorte e até lá! <span role="img" aria-label="sheep">👌</span> 
-                            </span> :
-                                <span>
-                                    Não foi possível completar a solicitação do seu agendamento. Tente reenviar o email.
-                                </span> 
+                    appointmentConfirmationSuccess &&
+                        <AiFillCheckCircle color='#2868ad' size={55} /> 
                     }
-                    
-                </Description>
-            </div> */}
-            {
-                appointmentConfirmationSuccess && (
-                    <div style={{ width: '100%', height: 162, marginTop: 16, display: 'flex', justifyContent: 'center' }}>
-                        <AppointmentDatetimeDetails selectedDay={selectedDayInfo} slot={slot} />
-                    </div>
-                )
-            }
-            <StyledFooter>
-                {/* <Button text={'Sair'} hollow />
-                <Button text={'Reenviar'} /> */}
-            </StyledFooter>
+                {
+                    appointmentConfirmationFailure && 
+                        <BiSolidMessageAltError color='#c1131e' size={55} /> 
+                }
+                </div>
+
+                <h2 style={{ color: '#000000', margin: 12, fontSize: titleFontSize }} >
+                    {
+                        appointmentConfirmationSuccess && "Parabéns! Sua entrevista está confirmada!"                        
+                    }
+                    {
+                        appointmentConfirmationFailure && "Não foi possível validar o agendamento"
+                    }
+                </h2>
+                {
+                    appointmentConfirmationSuccess && (
+                        <div style={{ width: '100%', height: 162, marginTop: 16, display: 'flex', justifyContent: 'center' }}>
+                            <AppointmentDatetimeDetails selectedDay={selectedDayInfo} slot={slot} />
+                        </div>
+                    )
+                }
+                <StyledFooter>
+                    {/* <Button text={'Sair'} hollow />
+                    <Button text={'Reenviar'} /> */}
+                </StyledFooter>
+            </Wrapper>
         </StyledContainer>
     )
 
