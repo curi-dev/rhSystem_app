@@ -111,8 +111,8 @@ export default function Confirmed() {
                 )
             }
             <StyledFooter>
-                <Button text={'Sair'} hollow />
-                <Button text={'Reenviar'} />
+                {/* <Button text={'Sair'} hollow />
+                <Button text={'Reenviar'} /> */}
             </StyledFooter>
         </StyledContainer>
     )

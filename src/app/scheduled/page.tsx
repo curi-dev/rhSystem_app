@@ -1,23 +1,27 @@
 'use client'
 
 import { useEffect } from "react"
-import { StyledContainer, AppointmentDetailsContainer, ReadOnlyContainer, StyledInputGroup, AppointmentActionsWrapper } from "./styles"
+import { StyledContainer } from "./styles"
 import { Loading, Title } from "@/components"
 
-import { BsFillFileEarmarkTextFill } from 'react-icons/bs'
-import { AiFillDelete } from 'react-icons/ai'
-import { MdNotificationImportant } from 'react-icons/md'
+import { Slot } from "../form/[step]/components/Calendar/interfaces"
+
+import { useAppointments } from "@/hooks/useAppointments"
 
 import { months } from "@/components/AppointmentDatetimeDetails/AppointmentDatetimeDetails"
-import { useAppointments } from "@/hooks/useAppointments"
+
 import { GetMockedSlot } from "../helpers/get_mocked_slot"
-import { Slot } from "../form/[step]/components/Calendar/interfaces"
+
+import { MdNotificationImportant } from 'react-icons/md'
+import { AppointmentDetailsContainer } from "./components/AppointmentDetailsContainer/AppointmentDetailsContainer"
 
 
 
 const Scheduled = () => {
 
     const { getAppointments, appointments, isFetchingAppointment } = useAppointments()
+
+    console.log("appointments: ", appointments)
 
     useEffect(() => {
         getAppointments()
@@ -42,18 +46,18 @@ const Scheduled = () => {
     }, [] as any[])
 
     const getDateText = (date: string) => {
- 
+
         const newDate = new Date(date)
 
         // @ts-ignore
-        return `${newDate.getDay()}.${months[newDate.getMonth() -1]}.${newDate.getFullYear()}`
+        return `${newDate.getDate()}.${months[newDate.getMonth() +1]}.${newDate.getFullYear()}`
     }
 
     const getFormattedDate = (date: string) => {
         const newDate = new Date(date)
 
-        let day = `${newDate.getDay()}`
-        let month = `${newDate.getMonth() -1}` 
+        let day = `${newDate.getDate()}`
+        let month = `${newDate.getMonth() +1}` 
         
         day = Number(day) < 10 ? `0${day}` : day
         month = Number(month) < 10 ? `0${month}` : month
@@ -89,42 +93,66 @@ const Scheduled = () => {
                         
                         {
                             isFetchingAppointment ? <Loading overlayOpacity={0.35} /> : (
-                                day_appointments.map(A => (                           
-                                    <AppointmentDetailsContainer key={'A' + i}>
-                                                                    
-                                        <StyledInputGroup>
-                                            <ReadOnlyField field={'Candidato:'} value={A.name} />
-                                            <ReadOnlyField field={'Email:'} value={A.email} />
-                                        </StyledInputGroup>
-    
-                                        <StyledInputGroup>
-                                            {/* <ReadOnlyField field={'Data:'} value={new Date(A.datetime).toISOString()} /> */}
-                                            <ReadOnlyField field={'Data:'} value={getFormattedDate(A.datetime)} />
-                                            <ReadOnlyField field={'Hora:'} value={handleGetSlotLabel(A.slot)} />
-                                        </StyledInputGroup>
-                                        
-                                        <ReadOnlyField field={'Telefone:'} value={A.phone} />
-                                        <ReadOnlyField 
-                                            link
-                                            field={'Currículo:'} 
-                                            value={"https://img.freepik.com/psd-gratuitas/modelo-simples-e-moderno-de-curriculo_1435-1589.jpg?w=2000"} 
-                                        />
-                                        <ReadOnlyField 
-                                            link
-                                            field={'Sala:'} 
-                                            value={"https://meet.google.com/"} 
-                                        />
-    
-                                        <AppointmentActionsWrapper >
-                                            <BsFillFileEarmarkTextFill color='#2868ad' size={22} />
-                                            <AiFillDelete color='#2868ad' size={26} />
-                                        </AppointmentActionsWrapper>
-                                    
-                                    </AppointmentDetailsContainer>                      
+                                day_appointments.map((A, i) => (
+                                    <AppointmentDetailsContainer 
+                                        key={"A" + i}
+                                        name={A.name} 
+                                        email={A.email} 
+                                        datetime={getFormattedDate(A.datetime)} 
+                                        slot={handleGetSlotLabel(A.slot)} 
+                                        phone={A.phone} 
+                                    />                                      
                                 ))
                             )
                         }
-
+                        {/* <AppointmentDetailsContainer 
+                            // key={}
+                            name={""} 
+                            email={""} 
+                            datetime={""} 
+                            slot={""} 
+                            phone={""} 
+                        />
+                        <AppointmentDetailsContainer 
+                            // key={}
+                            name={""} 
+                            email={""} 
+                            datetime={""} 
+                            slot={""} 
+                            phone={""} 
+                        />
+                        <AppointmentDetailsContainer 
+                            // key={}
+                            name={""} 
+                            email={""} 
+                            datetime={""} 
+                            slot={""} 
+                            phone={""} 
+                        /> 
+                        <AppointmentDetailsContainer 
+                            // key={}
+                            name={""} 
+                            email={""} 
+                            datetime={""} 
+                            slot={""} 
+                            phone={""} 
+                        />
+                        <AppointmentDetailsContainer 
+                            // key={}
+                            name={""} 
+                            email={""} 
+                            datetime={""} 
+                            slot={""} 
+                            phone={""} 
+                        />
+                        <AppointmentDetailsContainer 
+                            // key={}
+                            name={""} 
+                            email={""} 
+                            datetime={""} 
+                            slot={""} 
+                            phone={""} 
+                        />                                                                                                                                                                                                                                    */}
                         </div>
                         </>
                     )
@@ -133,28 +161,6 @@ const Scheduled = () => {
             }
 
         </StyledContainer>
-    )
-}
-
-
-const ReadOnlyField: React.FC<{ field: string, value: string, link?: boolean }> = ({ field, value, link }) => {
-
-
-    return (
-        <ReadOnlyContainer>
-            <label>
-                {field}
-            </label>
-            {
-                link ? <a href={value} style={{ color: '#0000ff' }}>
-                    Link para {field.replace(":", " ")}
-                </a> : <span >
-                    {value || ""}
-                </span>
-            }
-            
-        </ReadOnlyContainer>
-
     )
 }
 

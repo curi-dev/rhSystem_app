@@ -24,7 +24,7 @@ export const StyledContainer = styled.div`
 export const StyledHeader = styled.div`
 
     width: 100%; 
-    height: 287px; 
+    height: 257px; 
     position: relative;
     margin-bottom: 24px;
     
@@ -42,12 +42,9 @@ export const StyledHeader = styled.div`
 export const StyledFooter = styled.footer`
     width: 100%;
     background-color: #c1131e;
-    height: 96px;
+    height: 92px;
     margin-top: auto;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
+    
     text-align: center;
 
     padding: 24px;

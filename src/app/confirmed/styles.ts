@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const StyledContainer = styled.div`
     width: 100%;
-    height: 485px;
+    height: auto;
     max-width: 872px;
     transform: translateY(50%);
 
@@ -22,6 +22,7 @@ export const StyledContainer = styled.div`
 
     box-shadow: 0 1em 3em rgba(156, 136, 255,0.2);
 
+    text-align: center;
 `
 
 export const StyledFooter = styled.footer`

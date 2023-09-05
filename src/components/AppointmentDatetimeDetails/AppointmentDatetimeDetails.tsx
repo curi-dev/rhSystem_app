@@ -48,7 +48,7 @@ const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({
                             // @ts-ignore
                             `${selectedDay.day}.${months[selectedDay.month]}.${selectedDay.year}`
                             ) : currStep && (
-                            currStep === 0 ? "Próxima Etapa" : "Por favor Selecione"
+                            currStep === 1 ? "Próxima Etapa" : "Por favor Selecione"
                         )
                     }
                 </span>
@@ -67,7 +67,7 @@ const AppointmentDatetimeDetails: React.FC<AppointmentDatetimeDetailsProps> = ({
                 <span>
                 {
                     slot?.Label ? slot.Label : currStep && (
-                        currStep === 0 ? "Próxima Etapa" : "Por favor Selecione"
+                        currStep === 1 ? "Próxima Etapa" : "Por favor Selecione"
                     )
                 }
                 </span>
