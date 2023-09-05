@@ -99,7 +99,7 @@ interface InputMaskComponentProps extends InputWrapperProps {
 }
 
 // Will work fine
-const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, mask, registerOptions }) => {
+const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, mask, registerOptions, ...rest }) => {
 
     const [maskValue, setValueMask] = useState("")
     const [isFocus, setIsFocus] = useState(false)
@@ -135,6 +135,8 @@ const InputMaskComponent: React.FC<InputMaskComponentProps> = ({ label, field, m
             
                 setValue(field, fieldValue)
             }} 
+
+            {...rest}
 
         >
         {/* @ts-ignore */}

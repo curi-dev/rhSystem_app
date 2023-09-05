@@ -58,14 +58,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
     }
 
     const handleOnClick = () => {
-
-        console.log("candidate: ", candidate)
         
         if (!selectedDay || !slot || !candidate?.Email || !candidate.Name || !candidate.Phone) {
             return 
         }
-
-        //const candidateId = sessionStorage.getItem("candidate")
 
         const newAppointment = {
             id: candidate.Id,
@@ -74,7 +70,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onCloseMo
             splitted_date: selectedDay,
             slot: Number(slot.Value),
         } as IAppointment
-
 
         createAppointment(newAppointment)
     }

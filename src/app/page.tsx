@@ -47,6 +47,7 @@ export default function Home() {
   const [email, setEmail] = useState("") // adicionar verificação com regex 
   
 
+  // review this function
   useEffect(() => {
     if (email.trim().length > 0) {
 
@@ -123,16 +124,24 @@ export default function Home() {
                 <AiFillLock size={50} />
               </div>
               <span>Digite a chave de acesso</span>
-              <div style={{ width: 350, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', marginTop: 12 }} >
-                <TypewriterEffect text={key} />
-                
+              <div style={{ 
+                width: 350, 
+                maxWidth: '100%', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                position: 'relative', 
+                marginTop: 12,
+              }} 
+                >
+                <TypewriterEffect text={key} />               
                 <EnterKey onClick={handleValidateAccessKey}>
                   {
                     isValidatingAccessKey ? (
                       <LoadingBars.SpinningCircles color='#fff' />    
                     ) : (
                       (keyValidationFailure && key.length === 8) ? 
-                        <BiSolidErrorCircle size={35} color='#c1131e' /> : <BsBoxArrowRight size={30} />
+                        <BiSolidErrorCircle size={25} color='#c1131e' /> : <BsBoxArrowRight size={25} />
                     )
                   }
                 </EnterKey>

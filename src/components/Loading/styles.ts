@@ -12,4 +12,5 @@ export const Overlay = styled.div<{ $opacity?: number }>`
     align-items: center; 
     justify-content: center;
     z-index: 1000;
+    padding: 16px;
 `

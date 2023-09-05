@@ -14,8 +14,6 @@ const PersonalData: React.FC = () => {
     const { setValue } = useFormContext()
     const { candidate = { Email: "", Name: "", Phone: "" } } = useCandidate()
     
-    console.log("candidate: [PERSONAL DATA]", candidate)
-
     useEffect(() => {
         setValue("email", candidate?.Email)
         setValue("name", candidate?.Name)
@@ -44,7 +42,7 @@ const PersonalData: React.FC = () => {
                     }} 
                 />
             <Input 
-                customSize='100%'
+                //customSize='100%'
                 label={"Email"} 
                 field='email' 
                 type='text' 
@@ -56,7 +54,7 @@ const PersonalData: React.FC = () => {
                 field='phone' 
                 mask={'(99) 99999-9999'} 
                 registerOptions={{ required: true, pattern: { value: /^[0-9]{11}$/, message: "número de telefone inválido" } }} 
-                // placeholder='(21) 97742-3232'
+                style={{ paddingLeft: 12 }}
             />
             
             <div style={{ width: '100%', borderRadius: '6px', backgroundColor: '#2868ad', border: 'none', height: 152, padding: 16 }}>

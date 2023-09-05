@@ -35,8 +35,6 @@ export const StyledHeader = styled.div`
         max-height: 100%;
         object-fit: cover;
     }
-
-
 `
 
 export const StyledFooter = styled.footer`
@@ -51,20 +49,9 @@ export const StyledFooter = styled.footer`
 `
 
 export const EnterKey = styled.div`
-    width: 55px;
-    height: 55px;
-    display: flex;
-    align-items: center; justify-content: center;
-
-    border-radius: 50%;
     background-color: transparent;
     border: none;
-
-    position: absolute;
-    right: 0;
-    top: 0;
-    transform: translateX(110%);
-
+    
     cursor: pointer;
     z-index: 1000;
 `

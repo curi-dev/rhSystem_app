@@ -93,9 +93,6 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
 
                 createCandidate({ Email: email, Phone: phone, Name: name })
                 .then(success => {
-
-                    console.log("success: ", success)
-
                     if (success) {
                         setStep(Number(step) +1)
                     }
@@ -151,8 +148,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                     #Processo seletivo
                 </Description>
                 
-
-                <h3 style={{ marginTop: 12, color: '#2868ad' }}>Marque sua entrevista</h3>
+                <h3 style={{ marginTop: 12, marginBottom: 8, color: '#2868ad' }}>Marque sua entrevista</h3>
 
                 <Slot label='30-60min' icon={<BsFillStopwatchFill />} size="123" />
             </div>
@@ -161,7 +157,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     
      
     // const slotDetails = memoizedSelectedSlot
-    const displayBackBtn = step === 0 && "hidden" 
+    const displayBackBtn = step === 2 && "hidden" 
 
     return (
         <>
@@ -242,14 +238,13 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                     </FormProvider>
                 </Content>
 
-
-        <Footer>
-            {/* @ts-ignore */}
-            <div style={{ visibility: displayBackBtn }}>
-                <Button onClick={() => handleOnProgress('back')} text={'Voltar'} hollow={true} />
-            </div>
-            <Button onClick={() => handleOnProgress('forward')} text={'Avançar'} />
-        </Footer>
+                <Footer>
+                    {/* @ts-ignore */}
+                    <div style={{ visibility: displayBackBtn }}>
+                        <Button onClick={() => handleOnProgress('back')} text={'Voltar'} hollow={true} />
+                    </div>
+                    <Button onClick={() => handleOnProgress('forward')} text={'Avançar'} />
+                </Footer>
         </StyledContainer>
         </>
     )
