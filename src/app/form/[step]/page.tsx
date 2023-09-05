@@ -168,7 +168,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         {
             isCreatingCandidate && <Loading />
         }
-        <StyledContainer $scroll={isLessThan(DEFAULT_BREAKPOINT)} >
+        <StyledContainer >
             {
 
                 isLessThan(DEFAULT_BREAKPOINT) && (

@@ -4,7 +4,7 @@ import { Title } from '@/components/Title'
 
 import { FaUserEdit } from 'react-icons/fa'
 
-import { Description, Wrapper } from './styles'
+import { Description } from './styles'
 import { useFormContext } from 'react-hook-form'
 import { useCandidate } from '@/hooks/useCandidate'
 
@@ -24,7 +24,7 @@ const PersonalData: React.FC = () => {
 
  
     return (
-        <Wrapper >
+        <>
             <Description>
                 Preencha seus dados pessoais
             </Description>
@@ -76,7 +76,7 @@ const PersonalData: React.FC = () => {
                     registerOptions={undefined} 
                 />
             </div>
-        </Wrapper>
+        </>
     )
 }
 

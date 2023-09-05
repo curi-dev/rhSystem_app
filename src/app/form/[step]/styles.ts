@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 
-export const StyledContainer = styled.div<{ $scroll?: boolean }>`
+export const StyledContainer = styled.div`
     width: 100%;
-    //height: ${({ $scroll }) => $scroll ? '' : '100%'};
-    
+    height: auto;
+
     display: flex;
     max-width: 872px;
 
