@@ -12,12 +12,15 @@ import { BiSolidMessageAltError } from 'react-icons/bi'
 import { DayValue } from 'react-modern-calendar-datepicker'
 import { Slot as ISlot } from '../form/[step]/components/Calendar/interfaces'
 import { slots_mock } from './slot_mocks'
+import { useWindowSize } from '@/hooks/useWindowSize'
+import { DEFAULT_BREAKPOINT } from '@/constants'
 
 
 
 export default function Confirmed() {
 
     //const { slots, fetchSlots } = useSlots() 
+    const { isBiggerThan, isLessThan } = useWindowSize()
 
     const { 
         appointmentConfirmationFailure,
@@ -44,12 +47,7 @@ export default function Confirmed() {
     const getSlot = (): ISlot | undefined => {
         if ((slotInfo as number)) {
 
-            console.log("slotInfo inside getSlot() ", slotInfo)
-            
-            const slotLabel = slots_mock.find(s => { 
-                console.log("s ", s)
-                console.log(" String(slotInfo) ",  String(slotInfo))
-                       
+            const slotLabel = slots_mock.find(s => {        
                 return s.Value == String(slotInfo)
             }) 
 
@@ -66,6 +64,8 @@ export default function Confirmed() {
         return <Loading overlayOpacity={0.35} />
     }
 
+    const titleFontSize = isLessThan(DEFAULT_BREAKPOINT) ? '28px' : '20px'
+
     return (
         <StyledContainer>
             <div>
@@ -79,10 +79,9 @@ export default function Confirmed() {
             }
             </div>
 
-            <h2 style={{ color: '#000000', margin: 12 }} >
+            <h2 style={{ color: '#000000', margin: 12, fontSize: titleFontSize }} >
                 {
-                    appointmentConfirmationSuccess && "Parabéns! Sua entrevista está confirmada!" 
-                           
+                    appointmentConfirmationSuccess && "Parabéns! Sua entrevista está confirmada!"                        
                 }
                 {
                     appointmentConfirmationFailure && "Não foi possível validar o agendamento"
@@ -106,7 +105,7 @@ export default function Confirmed() {
             </div> */}
             {
                 appointmentConfirmationSuccess && (
-                    <div style={{ width: '50%', height: 162, marginTop: 16 }}>
+                    <div style={{ width: '100%', height: 162, marginTop: 16, display: 'flex', justifyContent: 'center' }}>
                         <AppointmentDatetimeDetails selectedDay={selectedDayInfo} slot={slot} />
                     </div>
                 )

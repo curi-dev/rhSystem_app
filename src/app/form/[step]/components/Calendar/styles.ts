@@ -31,7 +31,7 @@ export const TimeSlotContainer = styled.div<{ $color?: string, $vertical: boolea
 `
 
 export const SlotContainer = styled.div<{ $size?: string, $clickable?: boolean, $selected: boolean, $disabled?: boolean }>`
-    min-width: 100px;
+    min-width: 80px;
     height: 39px;
     display: flex;
     align-items: center;

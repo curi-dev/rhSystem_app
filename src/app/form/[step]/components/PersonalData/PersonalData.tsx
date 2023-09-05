@@ -17,11 +17,9 @@ const PersonalData: React.FC = () => {
     console.log("candidate: [PERSONAL DATA]", candidate)
 
     useEffect(() => {
-        //if (!!Object.values(candidate).length) {
         setValue("email", candidate?.Email)
         setValue("name", candidate?.Name)
         setValue("phone", candidate?.Phone)
-        //}
     }, [])
 
  
@@ -46,12 +44,12 @@ const PersonalData: React.FC = () => {
                     }} 
                 />
             <Input 
+                customSize='100%'
                 label={"Email"} 
                 field='email' 
                 type='text' 
                 helperText={"Você receberá um link de validação no e-mail cadastrado para confirmar o agendamento"} 
                 registerOptions={{ required: true, pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "email inválido" } }} 
-                // placeholder='Ex: candidato@gmail.com'
             />
             <InputMaskComponent 
                 label={"Telefone"} 
@@ -63,9 +61,7 @@ const PersonalData: React.FC = () => {
             
             <div style={{ width: '100%', borderRadius: '6px', backgroundColor: '#2868ad', border: 'none', height: 152, padding: 16 }}>
                 <div style={{ 
-                    //color: '#2868ad', 
                     color: '#c0c0c0',
-                    //fontWeight: 600,
                     marginBottom: 16, 
                     fontSize: 14 
                 }}>

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 
 export const StyledContainer = styled.div`
-    width: 65%;
+    width: 100%;
     height: 485px;
     max-width: 872px;
     transform: translateY(50%);

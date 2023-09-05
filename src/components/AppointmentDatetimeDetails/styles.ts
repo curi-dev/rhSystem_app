@@ -2,28 +2,29 @@ import styled from 'styled-components'
 
 
 export const StyledContainer = styled.div`
-    margin-bottom: 16px;
+    //margin-bottom: 16px;
     background-color: #f8f9fc;
     border-radius: 12px;
     height: 100%;
     max-height: 218px;
     width: 100%;
+    max-width: 300px;
 
     color: #000000;
-
-    padding: 16px;
-
+    
+    padding: 12px;
+    
     position: relative;
-
+    
     //margin-top: auto;
-
+    
     & > div {
         height: 50%;
 
         & > div:first-child {
             
             margin-bottom: 6px;
-
+            
             & span {
                 font-weight: 300;
                 font-size: 14px;

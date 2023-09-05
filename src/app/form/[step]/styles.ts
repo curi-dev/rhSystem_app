@@ -20,6 +20,8 @@ export const StyledContainer = styled.div<{ $scroll?: boolean }>`
 export const Content = styled.div`
     width: 100%;
     flex: 1;
+
+    padding-bottom: 84px;
 `
 
 export const FormWrapper = styled.form`
@@ -48,7 +50,7 @@ export const SideMenu = styled.menu`
 
 export const Footer = styled.footer`
     width: 100%;
-    height: 84px;
+    height: 74px;
     max-width: 872px;
   
     display: flex;
@@ -68,7 +70,7 @@ export const Footer = styled.footer`
     background-color: #fff;
     z-index: 15;
 
-    visibility: hidden;
+    //visibility: hidden;
 `
 
 

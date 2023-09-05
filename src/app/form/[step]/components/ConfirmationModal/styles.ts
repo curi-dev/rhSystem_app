@@ -25,7 +25,10 @@ export const SeparatorContainer = styled.div`
 
 export const StyledInputGroup = styled(SeparatorContainer)`
     display: flex;
-    column-gap: 12px;
+        
+    & div {
+        width: 50%;
+    }
 `
 
 export const Content = styled.div`

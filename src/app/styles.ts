@@ -24,9 +24,9 @@ export const StyledContainer = styled.div`
 export const StyledHeader = styled.div`
 
     width: 100%; 
-    height: 334px; 
+    height: 287px; 
     position: relative;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     
     & img {
         width: 100%;

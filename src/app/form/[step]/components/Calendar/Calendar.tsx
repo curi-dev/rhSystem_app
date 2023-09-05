@@ -59,12 +59,11 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
                     // @ts-ignore
                     onChange={actions.onChangeSelectedDay}
                     colorPrimary='#c0c0c0'
-                    //minimumDate={{ day: dayValue.day , month: dayValue.month, year: dayValue.year }}
                     minimumDate={utils('en').getToday()}
-                    //maximumDate={{ day: 30, month: 9, year: 2023 }}
-
-                    // renderFooter={true}
                     calendarClassName='custom-calendar'
+                    
+                    //maximumDate={{ day: 30, month: 9, year: 2023 }}
+                    // renderFooter={true}
                 />
 
                 <TimeSlotContainer $vertical={isLessThan(DEFAULT_BREAKPOINT)} >
@@ -105,8 +104,6 @@ interface SlotProps {
 
 
 export const Slot: React.FC<SlotProps> = ({ selected, label, icon, size, clickable, onChangeSlotTime, disabled }) => {
-
-    console.log("disabled: ", disabled)
 
     return (
         <SlotContainer 

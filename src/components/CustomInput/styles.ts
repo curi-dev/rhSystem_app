@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 
 export const StyledContainer = styled.div<{ $size?: number | string }>`
     width: ${({ $size }) => $size ? $size : '354px'};
+    max-width: 100%;
     margin-bottom: 24px;
 
     & label {

@@ -27,18 +27,16 @@ import { useCandidate } from '@/hooks/useCandidate'
 
 import Logo from '../../../../public/wa_group.jpg'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import { DEFAULT_BREAKPOINT } from '@/constants'
 
-
-const DEFAULT_BREAKPOINT = 671.5
 
 const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) => {
     
     const methods = useForm({ mode: 'onBlur',  })
     const { formState: { errors }, getValues } = methods
     const { back } = useRouter()
-
     const { createCandidate, isCreatingCandidate } = useCandidate()
-    const { size, isBiggerThan, isLessThan } = useWindowSize()
+    const { isBiggerThan, isLessThan } = useWindowSize()
     
     const { fetchAvailableSlots, slots } = useSlots()
     
@@ -54,8 +52,6 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     }, [paramsStep])
     
     const handleOnCalendarChange = (v: DayValue) => {
-        console.log("V: ", v)
-
         setSelectedDay(v)
 
         fetchAvailableSlots(v)
@@ -75,9 +71,6 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         }
     
         let fieldFilled = steps[validStep]['validate']()
-
-        console.log("fieldFilled: ", fieldFilled)
-
         if (fieldFilled) {
             steps[Number(validStep)]['next']()
         }
@@ -86,8 +79,6 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const memoizedSelectedSlot = useMemo(function getSlotDetails(): ISlot | undefined {
         
         let currSelectedSlot = slots.find(s => Number(s.Value as string) == slot)
-
-        console.log("currSelectedSlot: ", currSelectedSlot)
 
         return currSelectedSlot
     }, [slot])

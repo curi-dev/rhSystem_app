@@ -16,32 +16,34 @@ export const StyledContainer = styled.div`
 export const AppointmentDetailsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 248px;
+    height: 238px;
 
     border-radius: 12px;
     border: 2px solid #2868ad;
-    padding: 26px;
+    padding: 8px;
     margin-bottom: 16px;
 
     position: relative;
 `
 
+// export const Description = styled.span`
+//     font-size: 12px;
+//     color: #c0c0c0;
 
-export const Description = styled.span`
-    font-size: 16px;
-    color: #c0c0c0;
+//     margin-bottom: 8px;
 
-    margin-bottom: 8px;
-
-`
+// `
 
 export const ReadOnlyContainer = styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 35px;
+    height: 31px;
 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
     & label {
         color: #2868ad;
         font-weight: 700;
@@ -57,7 +59,10 @@ export const ReadOnlyContainer = styled.div`
 export const StyledInputGroup = styled.div`
     width: 100%;
     display: flex;
-    column-gap: 12px;
+
+    & div {
+        width: 50%;
+    }
 `
 
 export const AppointmentActionsWrapper = styled.div`

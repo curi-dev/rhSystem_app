@@ -13,16 +13,6 @@ import { useAppointments } from "@/hooks/useAppointments"
 import { GetMockedSlot } from "../helpers/get_mocked_slot"
 import { Slot } from "../form/[step]/components/Calendar/interfaces"
 
-// import { ICandidate } from "@/models/Candidate"
-
-// interface AppointmentDetails {
-//     Id: string
-//     RoomURL: string
-//     Time: string
-//     Date: Date
-//     candidate: ICandidate
-
-// }
 
 
 const Scheduled = () => {
@@ -38,9 +28,6 @@ const Scheduled = () => {
     const organized_appointments: [Appointments[]] = appointments.reduce(function (acc, currValue) {
 
         if (!!acc.length) {
-            console.log("currValue.Date: ", currValue.datetime.toISOString())
-            console.log("acc[acc.length -1][0]['Date']: ", (acc[acc.length -1][0]['datetime'] as Date).toISOString())
-
             if (currValue.datetime.toISOString() !== (acc[acc.length -1][0]['Date'] as Date).toISOString()) {
                 // @ts-ignore
                 acc.push([currValue])
@@ -53,8 +40,6 @@ const Scheduled = () => {
 
         return acc
     }, [] as any[])
-
-    console.log("organized_appointments: ", organized_appointments)
 
     const getDateText = (date: string) => {
  
@@ -69,8 +54,7 @@ const Scheduled = () => {
 
         let day = `${newDate.getDay()}`
         let month = `${newDate.getMonth() -1}` 
-        const year = newDate.getFullYear()
-
+        
         day = Number(day) < 10 ? `0${day}` : day
         month = Number(month) < 10 ? `0${month}` : month
 
@@ -107,8 +91,7 @@ const Scheduled = () => {
                             isFetchingAppointment ? <Loading overlayOpacity={0.35} /> : (
                                 day_appointments.map(A => (                           
                                     <AppointmentDetailsContainer key={'A' + i}>
-                                    
-                                    
+                                                                    
                                         <StyledInputGroup>
                                             <ReadOnlyField field={'Candidato:'} value={A.name} />
                                             <ReadOnlyField field={'Email:'} value={A.email} />
@@ -133,8 +116,8 @@ const Scheduled = () => {
                                         />
     
                                         <AppointmentActionsWrapper >
-                                            <BsFillFileEarmarkTextFill color='#2868ad' size={24} />
-                                            <AiFillDelete color='#2868ad' size={28} />
+                                            <BsFillFileEarmarkTextFill color='#2868ad' size={22} />
+                                            <AiFillDelete color='#2868ad' size={26} />
                                         </AppointmentActionsWrapper>
                                     
                                     </AppointmentDetailsContainer>                      

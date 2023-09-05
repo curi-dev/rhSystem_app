@@ -17,6 +17,7 @@ interface InputWrapperProps extends InputHTMLAttributes<HTMLInputElement> {
     helperText?: string
     needsUpdateOnBlur?: (value: string) => void
     registerOptions: any
+    customSize?: string
 }
 
 const Input: React.FC<InputWrapperProps> = ({ 
@@ -24,6 +25,7 @@ const Input: React.FC<InputWrapperProps> = ({
     label, 
     helperText, 
     needsUpdateOnBlur = null, 
+    customSize = undefined,
     registerOptions = { required: true }, ...props }) => {
 
     const { register, formState: { errors }, trigger, watch } = useFormContext()
@@ -52,7 +54,7 @@ const Input: React.FC<InputWrapperProps> = ({
 
 
     return  (
-        <StyledContainer>
+        <StyledContainer $size={customSize}>
             <label htmlFor={field}>
                 {label}
             </label>
