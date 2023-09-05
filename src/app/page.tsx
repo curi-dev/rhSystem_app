@@ -159,7 +159,16 @@ export default function Home() {
       <StyledHeader>
         <Image src={HeaderImage} alt={'call-center'} fill />
       </StyledHeader> 
-      <div style={{ width: 400, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ 
+        width: '100%', 
+        maxWidth: 400, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        padding: 8
+      }}
+      >
         <Image 
           src={Logo} 
           alt='Logo WA' 

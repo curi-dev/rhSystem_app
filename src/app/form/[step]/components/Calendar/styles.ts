@@ -1,23 +1,37 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
+export const Content = styled.div<{ $vertical: boolean }>`
+    display: flex; 
+    justify-content: space-evenly; 
+    flex: 1;
+    width: 100%;
 
-export const TimeSlotContainer = styled.div<{ color?: string }>`
-    width: 123px;
-    height: 500px;
+    flex-direction: ${({ $vertical }) => $vertical ? 'column' : 'row'};
+`
+
+export const TimeSlotContainer = styled.div<{ $color?: string, $vertical: boolean }>`
+    flex: 1;
+    height: auto;
     padding: 8px;
-    
-    //border: 1px solid #c0c0c0;
-    //border-radius: 12px;
-
-    position: 'absolute';
-    right: 0;
-    top: 0;
     
     overflow: scroll;
     background-color: ${({ color }) => color ? color : 'transparent'};
+
+    ${({ $vertical }) => {
+        return $vertical ? css`
+
+        ` : css`
+            display: flex;
+
+            & div + div {
+                margin-left: 8px;
+            }
+        `
+    }}
 `
 
 export const SlotContainer = styled.div<{ $size?: string, $clickable?: boolean, $selected: boolean, $disabled?: boolean }>`
+    min-width: 100px;
     height: 39px;
     display: flex;
     align-items: center;

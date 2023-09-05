@@ -1,13 +1,11 @@
 import styled from 'styled-components'
 
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.div<{ $scroll?: boolean }>`
     width: 100%;
-    height: 100%;
+    //height: ${({ $scroll }) => $scroll ? '' : '100%'};
     
     display: flex;
-    overflow: hidden;
-
     max-width: 872px;
 
     margin: 0 auto;
@@ -15,12 +13,18 @@ export const StyledContainer = styled.div`
     background-color: #fff;
 
     box-shadow: 0 1em 3em rgba(156, 136, 255,0.2);
+
+    position: relative;
 `
 
 export const Content = styled.div`
     width: 100%;
     flex: 1;
-    padding: 16;
+`
+
+export const FormWrapper = styled.form`
+    width: 100%; 
+    padding: 16px;
 `
 
 export const SideMenu = styled.menu`
@@ -31,8 +35,7 @@ export const SideMenu = styled.menu`
     
     display: flex;
     flex-direction: column;
-    //justify-content: space-between;
-
+    
     padding-bottom: 84px;
 
     & h3 {
@@ -45,10 +48,9 @@ export const SideMenu = styled.menu`
 
 export const Footer = styled.footer`
     width: 100%;
-    
-    
     height: 84px;
-
+    max-width: 872px;
+  
     display: flex;
     padding: 16px;
     align-items: center;
@@ -66,10 +68,7 @@ export const Footer = styled.footer`
     background-color: #fff;
     z-index: 15;
 
-    //column-gap: calc(calc(100%) * 0.05);
-
-    /* padding-left: calc(calc(100%) * 0.20);
-    padding-right: calc(calc(100%) * 0.20); */
+    visibility: hidden;
 `
 
 

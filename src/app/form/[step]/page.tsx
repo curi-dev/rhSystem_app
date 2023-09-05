@@ -19,15 +19,17 @@ import { useSlots } from '@/hooks/useSlots'
 
 import { Slot as ISlot, SlotTimeValue } from './components/Calendar/interfaces'
 
-import { StyledContainer, Footer, SideMenu, Content } from './styles'
+import { StyledContainer, Footer, SideMenu, Content, FormWrapper } from './styles'
 
 import { BsFillStopwatchFill } from 'react-icons/bs'
 
 import { useCandidate } from '@/hooks/useCandidate'
 
 import Logo from '../../../../public/wa_group.jpg'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 
+const DEFAULT_BREAKPOINT = 671.5
 
 const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) => {
     
@@ -36,6 +38,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const { back } = useRouter()
 
     const { createCandidate, isCreatingCandidate } = useCandidate()
+    const { size, isBiggerThan, isLessThan } = useWindowSize()
     
     const { fetchAvailableSlots, slots } = useSlots()
     
@@ -149,6 +152,21 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
             }
         }
     }
+
+    const getScheduleTitle = () => {
+        return (
+            <div style={{ padding: 16 }}>
+                <Description>
+                    #Processo seletivo
+                </Description>
+                
+
+                <h3 style={{ marginTop: 12, color: '#2868ad' }}>Marque sua entrevista</h3>
+
+                <Slot label='30-60min' icon={<BsFillStopwatchFill />} size="123" />
+            </div>
+        )
+    }
     
      
     // const slotDetails = memoizedSelectedSlot
@@ -159,65 +177,66 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
         {
             isCreatingCandidate && <Loading />
         }
-        <StyledContainer>
-            <SideMenu >
-                <div 
-                    style={{ 
-                        width: '100%', 
-                        height: 194, 
-                        position: 'relative',
-                        left: 0,
-                        top: 0,
-                        marginBottom: 32, 
-                    }}>
-                    <Image 
-                        src={Logo} 
-                        alt='Logo WA' 
-                        style={{ 
-                            width: 100,
-                            minWidth: 175, 
-                            maxHeight: '100%', 
-                            objectFit: 'cover', 
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            marginLeft: '50%',
-                            marginTop: '25%',
-                            transform: 'translate(-50%, 0)' 
-                        }} 
-                    />
-                </div>
-                <div style={{ padding: 16 }}>
-                    <Description>
-                        #Processo seletivo
-                    </Description>
-                    
+        <StyledContainer $scroll={isLessThan(DEFAULT_BREAKPOINT)} >
+            {
 
-                    <h3 style={{ marginTop: 12, color: '#2868ad' }}>Marque sua entrevista</h3>
-
-                    <Slot label='30-60min' icon={<BsFillStopwatchFill />} size="123" />
-                </div>
-                {
-                    step && (
-                        <div style={{ paddingLeft: 16, paddingRight: 16, marginTop: 'auto' }}>
-                            <AppointmentDatetimeDetails 
-                                // slots={slots} 
-                                selectedDay={selectedDay} 
-                                currStep={step} 
-                                slot={memoizedSelectedSlot} 
+                isLessThan(DEFAULT_BREAKPOINT) && (
+                    <SideMenu >
+                        <div 
+                            style={{ 
+                                width: '100%', 
+                                height: 194, 
+                                position: 'relative',
+                                left: 0,
+                                top: 0,
+                                marginBottom: 32, 
+                            }}>
+                            <Image 
+                                src={Logo} 
+                                alt='Logo WA' 
+                                style={{ 
+                                    width: 100,
+                                    minWidth: 175, 
+                                    maxHeight: '100%', 
+                                    objectFit: 'cover', 
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    marginLeft: '50%',
+                                    marginTop: '25%',
+                                    transform: 'translate(-50%, 0)' 
+                                }} 
                             />
                         </div>
-                    )
-                }
-            </SideMenu >
+                        {getScheduleTitle()}
+                        {
+                            step && (
+                                <div style={{ paddingLeft: 16, paddingRight: 16, marginTop: 'auto' }}>
+                                    <AppointmentDatetimeDetails 
+                                        // slots={slots} 
+                                        selectedDay={selectedDay} 
+                                        currStep={step} 
+                                        slot={memoizedSelectedSlot} 
+                                    />
+                                </div>
+                            )
+                        }
+                    </SideMenu >
+                )
+            }
                 <Content>
                     <Header />
+                    {
+                        isBiggerThan(DEFAULT_BREAKPOINT) && (
+                            getScheduleTitle()
+                        )
+                    }
                     <FormProvider {...methods}>
                     {/* <form onSubmit={methods.handleSubmit(onSubmit)} style={{ width: '100%', padding: 16 }} onError={onSubmitErr} > */}
                     
-                    <form style={{ width: '100%', padding: 16 }} >
+                    <FormWrapper>
                         {step && (steps[step]['component'])}
-                    </form>
+                    </FormWrapper>
                     {
                         <ConfirmationModal 
                             isOpen={isModalOpen} 
@@ -233,7 +252,6 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
                 </Content>
 
 
-        </StyledContainer>
         <Footer>
             {/* @ts-ignore */}
             <div style={{ visibility: displayBackBtn }}>
@@ -241,6 +259,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
             </div>
             <Button onClick={() => handleOnProgress('forward')} text={'Avançar'} />
         </Footer>
+        </StyledContainer>
         </>
     )
 }

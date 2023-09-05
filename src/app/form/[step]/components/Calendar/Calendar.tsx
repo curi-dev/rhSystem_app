@@ -6,13 +6,14 @@ import { utils } from '@amir04lm26/react-modern-calendar-date-picker';
 import { Title } from '@/components';
 
 import { Description } from '../PersonalData/styles';
-import { TimeSlotContainer, SlotContainer } from './styles'
+import { TimeSlotContainer, SlotContainer, Content } from './styles'
 
 import { BsFillCalendarCheckFill } from 'react-icons/bs'
 
-// import "react-modern-calendar-datepicker/lib/DatePicker.css";
-
 import { useSlots } from '@/hooks/useSlots';
+import { useWindowSize } from '@/hooks/useWindowSize';
+
+import { DEFAULT_BREAKPOINT } from '@/constants'
 
 
 
@@ -25,6 +26,7 @@ interface CalendarProps {
 const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
 
     const { slots, fetchSlots, isLoadingSlots, avaiableSlots = [] } = useSlots()
+    const { isBiggerThan, isLessThan } = useWindowSize()
     
     useEffect(() => {
         fetchSlots()
@@ -49,7 +51,7 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
                 <Title text={"Horários disponíveis"} />
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-evenly', flex: 1, width: '100%' }} >
+            <Content $vertical={isBiggerThan(DEFAULT_BREAKPOINT)}>
             
                 <Calendar
                     // @ts-ignore
@@ -65,7 +67,7 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
                     calendarClassName='custom-calendar'
                 />
 
-                <TimeSlotContainer >
+                <TimeSlotContainer $vertical={isLessThan(DEFAULT_BREAKPOINT)} >
                     {
                         isLoadingSlots ? (
                             <span>
@@ -86,7 +88,7 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
                     }
                 </TimeSlotContainer >
             
-            </div>
+            </Content>
         </>   
     )
 }
