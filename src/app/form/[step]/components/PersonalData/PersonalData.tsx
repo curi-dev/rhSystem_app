@@ -12,7 +12,9 @@ import { useCandidate } from '@/hooks/useCandidate'
 const PersonalData: React.FC = () => {
 
     const { setValue } = useFormContext()
-    const { candidate = { Email: "", Name: "", Phone: "" } } = useCandidate()
+    const { candidate = { Email: undefined, Name: undefined, Phone: undefined } } = useCandidate()
+
+    console.log("candidate: ", candidate)
     
     useEffect(() => {
         setValue("email", candidate?.Email)

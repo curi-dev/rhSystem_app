@@ -24,7 +24,7 @@ const customStyles = {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       width: '100%',
-      height: '50%',
+      height: 'auto',
       maxWidth: '700px',
       maxHeight: '374px',
       boxShadow: '0 1em 3em rgba(156, 136, 255,0.2)'

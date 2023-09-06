@@ -53,8 +53,6 @@ export default function Home() {
 
       let candidateExists = !!(Object.values(candidate).length)
 
-      console.log("candidateExists: ", candidateExists)
-
       if (candidateExists) {
         setShowKeyField(true)
 

@@ -39,6 +39,17 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
         return !hasSelectedDay || !slotIsAvaiable
     }
 
+    const getMinimumDateTomorrow = () => {
+        const tomorrow = new Date()
+
+        tomorrow.setDate(tomorrow.getDate() +1)
+
+        console.log("today: ", tomorrow)
+
+        return { day: tomorrow.getDate(), month: tomorrow.getMonth() +1, year: tomorrow.getFullYear() }
+    }
+
+    getMinimumDateTomorrow()
 
     return (
         <>
@@ -59,11 +70,8 @@ const CalendarComponent: React.FC<CalendarProps> = ({ actions, values }) => {
                     // @ts-ignore
                     onChange={actions.onChangeSelectedDay}
                     colorPrimary='#c0c0c0'
-                    minimumDate={utils('en').getToday()}
+                    minimumDate={getMinimumDateTomorrow()}
                     calendarClassName='custom-calendar'
-                    
-                    //maximumDate={{ day: 30, month: 9, year: 2023 }}
-                    // renderFooter={true}
                 />
 
                 <TimeSlotContainer $vertical={isLessThan(DEFAULT_BREAKPOINT)} >

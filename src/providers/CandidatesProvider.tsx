@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { CreateAccessKeyService, ValidateAccessKeyService, CreateCandidateService } from '@/api/services'
 import { ICandidate } from '@/models/Candidate'
 
+import { useToast } from '@/hooks/useToast'
+
 
 
 interface CandidatesProviderInterface {
@@ -34,6 +36,7 @@ const CandidatesContext = createContext<CandidatesProviderInterface>({} as Candi
 const CandidatesProvider = ({ children }: any) => {
   
     const { push } = useRouter()
+    const { warning } = useToast()
     
     const [candidate, setCandidate] = useState<ICandidate>({} as ICandidate)
     console.log("Candidate: ", candidate)
@@ -70,7 +73,7 @@ const CandidatesProvider = ({ children }: any) => {
         setkeyValidationFailure(false)
     }
 
-    const createCandidate = async (candidate: ICandidate): Promise<boolean> => {
+    const createCandidate = async (candidate: ICandidate): Promise<void> => {
 
         setIsCreatingCandidate(true)
       
@@ -84,17 +87,19 @@ const CandidatesProvider = ({ children }: any) => {
             setCandidateCreationSuccess(false)
 
             setIsCreatingCandidate(false)
-            return false
+
+            warning(response.message, 5000)
+            
         } else {
+            
             console.log("candidate created! [context]", response)
+            
             setCandidate( { Id: response.Id, ...candidate } )
 
             setCandidateCreationSuccess(true)
             setCandidateCreationFailure(false)
 
             setIsCreatingCandidate(false)
-            
-            return true
         }
     }
 

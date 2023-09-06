@@ -35,7 +35,7 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const methods = useForm({ mode: 'onBlur',  })
     const { formState: { errors }, getValues } = methods
     const { back } = useRouter()
-    const { createCandidate, isCreatingCandidate } = useCandidate()
+    const { createCandidate, isCreatingCandidate, candidateCreationSuccess } = useCandidate()
     const { isBiggerThan, isLessThan } = useWindowSize()
     
     const { fetchAvailableSlots, slots } = useSlots()
@@ -44,6 +44,12 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedDay, setSelectedDay] = useState<DayValue | null>(null);
     const [slot, setSlot] = useState<SlotTimeValue | null>(null)
+    
+    useEffect(() => {
+        if (candidateCreationSuccess) {
+            setStep((step as number) +1)
+        }    
+    }, [candidateCreationSuccess])
 
     useEffect(() => {
         if (!step) {
@@ -91,20 +97,14 @@ const Form = ({ params: { step: paramsStep } }: { params: { step: number } }) =>
             next: async () => {
                 const { name, email, phone } = getValues()
 
-                createCandidate({ Email: email, Phone: phone, Name: name })
-                .then(success => {
-                    if (success) {
-                        setStep(Number(step) +1)
-                    }
-                })
-                .catch(e => {
-                    console.error(e)
-                    // toast
-                })
+                console.log("name: ", name)
+                console.log("email: ", email)
+                console.log("phone: ", phone)
+
+                await createCandidate({ Email: email, Phone: phone, Name: name })
             },
             
             validate: () => {
-
                 let fields_to_validate = ["name", "email", "phone"]
                 for (let i = 0; i < fields_to_validate.length; i++) {
                     if (Object.keys(errors).includes(fields_to_validate[i])) {                

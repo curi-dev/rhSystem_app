@@ -1,4 +1,5 @@
 "use client"
+
 import { useRouter } from 'next/navigation'
 import { createContext, useState } from 'react'
 import { ConfirmAppointmentService, CreateAppointmentService, GetAppointmentsService } from '@/api/services'
@@ -25,23 +26,6 @@ interface AppointmentsContextInterface {
 
 const AppointmentsContext = createContext<AppointmentsContextInterface>({} as AppointmentsContextInterface)
 
-
-// `SELECT A.id, A.datetime, A.slot, A.created_at, A.updated_at, C.id, C.email, C.phone, C.resumeUrl, C.name FROM appointments as A
-// 		WHERE A.status = 2
-// 		LEFT JOIN candidates as C
-// 		on A.candidate = C.id
-// 		ORDER_BY A.created_at ASC`,
-
-//       "candidateId": "d362e8c0-22c6-46d7-8013-eb04b6b15f7f",
-// 		"datetime": "2023-09-05T09:00:00Z",
-// 		"email": "shopper.tiago@gmail.com",
-// 		"id": "40beb82c-0697-4482-a59a-a8d0f82d4540",
-// 		"name": "Tiago Lindgren Curi",
-// 		"phone": "21977412997",
-// 		"resumeUrl": string
-// 
-// 		"slot": 2
-// 	}
 interface Appointments {
     id: string
     datetime: Date
@@ -76,8 +60,6 @@ const AppointmentsProvider = ({ children }: any) => {
 
     const [appointments, setAppointments] = useState<Appointments[]>([])
 
-    console.log("appointments: ", appointments)
-    
 
     const createAppointment = async (appointment: IAppointment) => {
         
