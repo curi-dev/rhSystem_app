@@ -23,7 +23,7 @@ interface CandidatesProviderInterface {
     validateKeyErrorMessage: string | null
     RESET: () => void 
     updateCandidate: (field: string, value: string) => void
-    createCandidate: (candidate: ICandidate) => Promise<boolean>
+    createCandidate: (candidate: ICandidate) => Promise<void>
     isCreatingCandidate: boolean
     candidateCreationSuccess: boolean
     candidateCreationFailure: boolean
