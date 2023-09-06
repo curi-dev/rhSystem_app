@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { StyledContainer } from "./styles"
 import { Loading, Title } from "@/components"
 
@@ -28,23 +28,6 @@ const Scheduled = () => {
     }, [])
 
 
-    // @ts-ignore
-    const organized_appointments: [Appointments[]] = appointments.reduce(function (acc, currValue) {
-
-        if (!!acc.length) {
-            if (currValue.datetime.toISOString() !== (acc[acc.length -1][0]['Date'] as Date).toISOString()) {
-                // @ts-ignore
-                acc.push([currValue])
-            } else {
-                acc[acc.length -1].push(currValue)
-            }
-        } else {
-            acc.push([currValue])
-        }
-
-        return acc
-    }, [] as any[])
-
     const getDateText = (date: string) => {
 
         const newDate = new Date(date)
@@ -65,6 +48,26 @@ const Scheduled = () => {
         // @ts-ignore
         return `${day}/${month}/${newDate.getFullYear()}`
     }
+
+    // @ts-ignore
+    const organized_appointments: [Appointments[]] = useMemo(appointments.reduce(function (acc, currValue) {
+
+        if (appointments.length > 0) {
+            if (!!acc.length) {
+                if (currValue.datetime.toISOString() !== (acc[acc.length -1][0]['Date'] as Date).toISOString()) {
+                    // @ts-ignore
+                    acc.push([currValue])
+                } else {
+                    acc[acc.length -1].push(currValue)
+                }
+            } else {
+                acc.push([currValue])
+            }
+    
+            return acc
+        }
+
+    }, [] as any[]), [appointments])
 
 
     const handleGetSlotLabel = (slot: number): string => {
