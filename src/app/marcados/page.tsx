@@ -67,6 +67,8 @@ const Scheduled = () => {
             return acc
         }
 
+        return []
+
     }, [] as any[]), [appointments])
 
 
