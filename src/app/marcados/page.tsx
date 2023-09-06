@@ -54,7 +54,9 @@ const Scheduled = () => {
 
         if (appointments.length > 0) {
             if (!!acc.length) {
+                console.log("currValue: ", currValue)
                 if (currValue.datetime?.toISOString() !== (acc[acc.length -1][0]['Date'] as Date).toISOString()) {
+                    console.log("currValue: II", currValue)
                     // @ts-ignore
                     acc.push([currValue])
                 } else {
