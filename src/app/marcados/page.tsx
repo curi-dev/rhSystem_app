@@ -50,7 +50,7 @@ const Scheduled = () => {
     }
 
     // @ts-ignore
-    const organized_appointments: [Appointments[]] = useMemo(appointments.reduce(function (acc, currValue) {
+    const organized_appointments: [Appointments[]] = useMemo(() => appointments.reduce(function (acc, currValue) {
 
         if (appointments.length > 0) {
             if (!!acc.length) {
